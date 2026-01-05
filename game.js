@@ -26,6 +26,11 @@ class Gameboard {
       throw new Error();
     }
     for (let i = 0; i < coords.length; i++) {
+      if (this.board[coords[i][0]][coords[i][1]] !== undefined) {
+        throw new Error();
+      }
+    }
+    for (let i = 0; i < coords.length; i++) {
       this.board[coords[i][0]][coords[i][1]] = ship;
     }
   }

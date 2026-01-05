@@ -74,6 +74,7 @@ describe("Gameboard tests", () => {
         [3, 4],
         [3, 5],
       ]);
+
       expect(() =>
         gb.placeShip(secondTwoTileShip, [
           [4, 5],
