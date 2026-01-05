@@ -1,4 +1,4 @@
-import { Ship } from "../game";
+import { Ship, Gameboard } from "../game";
 
 describe("Ship tests", () => {
   let ship;
@@ -33,3 +33,5 @@ describe("Ship tests", () => {
     expect(ship.sunk).toBe(true);
   });
 });
+
+describe("Gameboard tests", () => {});

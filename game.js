@@ -1,4 +1,4 @@
-export { Ship };
+export { Ship, Gameboard };
 
 class Ship {
   constructor(length) {
@@ -12,5 +12,11 @@ class Ship {
     if (this.timesHit === this.length) {
       this.sunk = true;
     }
+  }
+}
+
+class Gameboard {
+  constructor() {
+    this.board = [[], [], [], [], [], [], [], [], [], []];
   }
 }
