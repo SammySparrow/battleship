@@ -21,6 +21,10 @@ class Gameboard {
   }
 
   placeShip(ship, coords) {
+    let check = coords.flat();
+    if (Math.max(...check) > 9 || Math.min(...check) < 0) {
+      throw new Error();
+    }
     for (let i = 0; i < coords.length; i++) {
       this.board[coords[i][0]][coords[i][1]] = ship;
     }
