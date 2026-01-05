@@ -1,5 +1,9 @@
-export { testFn };
+export { Ship };
 
-function testFn(x, y) {
-  return x + y;
+class Ship {
+  constructor(length) {
+    this.length = length;
+    this.timesHit = 0;
+    this.sunk = false;
+  }
 }

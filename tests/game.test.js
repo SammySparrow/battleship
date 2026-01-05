@@ -1,5 +1,13 @@
-import { testFn } from "../game";
+import { Ship } from "../game";
 
-test("Import/export & Jest working", () => {
-  expect(testFn(1, 2)).toBe(3);
+describe("Ship tests", () => {
+  let ship;
+
+  beforeEach(() => {
+    ship = new Ship(3);
+  });
+
+  test("Ship initialises with expected length", () => {
+    expect(ship.length).toBe(3);
+  });
 });
