@@ -16,14 +16,14 @@ describe("Ship tests", () => {
   });
 
   test("timesHit increments whe ship is hit", () => {
-    ship.hit;
+    ship.hit();
     expect(ship.timesHit).toBe(1);
   });
 
   test("isSunk status is true when timesHit equals ship length", () => {
-    ship.hit;
-    ship.hit;
-    ship.hit;
+    ship.hit();
+    ship.hit();
+    ship.hit();
     expect(ship.sunk).toBe(true);
   });
 });

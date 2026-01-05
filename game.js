@@ -6,4 +6,11 @@ class Ship {
     this.timesHit = 0;
     this.sunk = false;
   }
+
+  hit() {
+    this.timesHit += 1;
+    if (this.timesHit === this.length) {
+      this.sunk = true;
+    }
+  }
 }
