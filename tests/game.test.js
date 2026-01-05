@@ -41,16 +41,45 @@ describe("Gameboard tests", () => {
     gb = new Gameboard();
   });
 
-  test("Ship exists in determined coordinates", () => {
-    let threeTileShip = new Ship(3);
+  describe("Ship placement method tests", () => {
+    test("Ship exists in determined coordinates", () => {
+      let threeTileShip = new Ship(3);
 
-    gb.placeShip(threeTileShip, [
-      [2, 3],
-      [2, 4],
-      [2, 5],
-    ]);
-    expect(gb.board[2][3]).toBe(threeTileShip);
-    expect(gb.board[2][4]).toBe(threeTileShip);
-    expect(gb.board[2][5]).toBe(threeTileShip);
+      gb.placeShip(threeTileShip, [
+        [2, 3],
+        [2, 4],
+        [2, 5],
+      ]);
+      expect(gb.board[2][3]).toBe(threeTileShip);
+      expect(gb.board[2][4]).toBe(threeTileShip);
+      expect(gb.board[2][5]).toBe(threeTileShip);
+    });
+
+    test("Ship cannot be placed outside of gameboard boundaries", () => {
+      let twoTileShip = new Ship(2);
+
+      expect(() =>
+        gb.placeShip(twoTileShip, [
+          [9, 9],
+          [9, 10],
+        ])
+      ).toThrow(Error);
+    });
+
+    test("Ships cannot overlap", () => {
+      let twoTileShip = new Ship(2);
+      let secondTwoTileShip = new Ship(2);
+
+      gb.placeShip(twoTileShip, [
+        [3, 4],
+        [3, 5],
+      ]);
+      expect(() =>
+        gb.placeShip(secondTwoTileShip, [
+          [4, 5],
+          [3, 5],
+        ])
+      ).toThrow(Error);
+    });
   });
 });
