@@ -15,12 +15,18 @@ describe("Ship tests", () => {
     expect(ship.timesHit).toBe(0);
   });
 
-  test("timesHit increments whe ship is hit", () => {
+  test("timesHit increments when ship is hit", () => {
     ship.hit();
     expect(ship.timesHit).toBe(1);
   });
 
-  test("isSunk status is true when timesHit equals ship length", () => {
+  test("Sunk status is not set to true before timesHit equals length", () => {
+    ship.hit();
+    ship.hit();
+    expect(ship.sunk).toBe(false);
+  });
+
+  test("Sunk status is true when timesHit equals ship length", () => {
     ship.hit();
     ship.hit();
     ship.hit();
