@@ -20,5 +20,9 @@ class Gameboard {
     this.board = [[], [], [], [], [], [], [], [], [], []];
   }
 
-  placeShip() {}
+  placeShip(ship, coords) {
+    for (let i = 0; i < coords.length; i++) {
+      this.board[coords[i][0]][coords[i][1]] = ship;
+    }
+  }
 }
