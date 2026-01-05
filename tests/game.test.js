@@ -34,4 +34,19 @@ describe("Ship tests", () => {
   });
 });
 
-describe("Gameboard tests", () => {});
+describe("Gameboard tests", () => {
+  let gb;
+
+  beforeEach(() => {
+    gb = new Gameboard();
+  });
+
+  test("Ship exists in determined coordinates", () => {
+    let threeTileShip = new Ship(3);
+
+    gb.placeShip([2, 3], [2, 4], [2, 5]);
+    expect(gb.board[2][3]).toBe(threeTileShip);
+    expect(gb.board[2][4]).toBe(threeTileShip);
+    expect(gb.board[2][5]).toBe(threeTileShip);
+  });
+});

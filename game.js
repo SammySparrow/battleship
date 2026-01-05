@@ -19,4 +19,6 @@ class Gameboard {
   constructor() {
     this.board = [[], [], [], [], [], [], [], [], [], []];
   }
+
+  placeShip() {}
 }
