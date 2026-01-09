@@ -59,5 +59,19 @@ describe("Gameboard tests", () => {
 
       expect(() => gb.placeShip(2, [2, 5], "horizontal")).toThrow(Error);
     });
+
+    test("Ships are independent objects", () => {
+      gb.placeShip(2, [1, 1], "horizontal");
+      gb.placeShip(2, [5, 5], "horizontal");
+
+      expect(gb.board[1][1]).toBeDefined();
+      expect(gb.board[5][5]).toBeDefined();
+      expect(gb.board[1][1]).not.toBe(gb.board[5][5]);
+    });
+
+    test("One ship over two tiles is the same object", () => {
+      gb.placeShip(2, [1, 1], "horizontal");
+      expect(gb.board[1][1]).toBe(gb.board[2][1]);
+    });
   });
 });
