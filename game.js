@@ -20,18 +20,23 @@ class Gameboard {
     this.board = [[], [], [], [], [], [], [], [], [], []];
   }
 
-  placeShip(ship, coords) {
-    let check = coords.flat();
-    if (Math.max(...check) > 9 || Math.min(...check) < 0) {
-      throw new Error();
+  placeShip(ship, coords, direction) {
+    let index;
+    direction === "horizontal" ? (index = 0) : (index = 1);
+
+    if (coords[index] + ship.length > 9) {
+      throw new Error("Coords out of bounds");
     }
-    for (let i = 0; i < coords.length; i++) {
-      if (this.board[coords[i][0]][coords[i][1]] !== undefined) {
-        throw new Error();
+
+    for (let i = 0; i < ship.length; i++) {
+      if (this.board[coords[0]][coords[1]] !== undefined) {
+        throw new Error("Ship overlap");
       }
     }
-    for (let i = 0; i < coords.length; i++) {
-      this.board[coords[i][0]][coords[i][1]] = ship;
+
+    for (let i = 0; i < ship.length; i++) {
+      this.board[coords[0]][coords[1]] = ship;
+      coords[index]++;
     }
   }
 }
