@@ -20,23 +20,24 @@ class Gameboard {
     this.board = [[], [], [], [], [], [], [], [], [], []];
   }
 
-  placeShip(ship, coords, direction) {
+  placeShip(size, coords, direction) {
+    let ship = new Ship(size);
     let index;
     direction === "horizontal" ? (index = 0) : (index = 1);
 
-    if (coords[index] + ship.length > 9) {
+    if (coords[index] + size > 9) {
       throw new Error("Coords out of bounds");
     }
 
     let testCoords = structuredClone(coords);
-    for (let i = 0; i < ship.length; i++) {
+    for (let i = 0; i < size; i++) {
       if (this.board[testCoords[0]][testCoords[1]] !== undefined) {
         throw new Error("Ship overlap");
       }
       testCoords[index]++;
     }
 
-    for (let i = 0; i < ship.length; i++) {
+    for (let i = 0; i < size; i++) {
       this.board[coords[0]][coords[1]] = ship;
       coords[index]++;
     }
