@@ -28,10 +28,12 @@ class Gameboard {
       throw new Error("Coords out of bounds");
     }
 
+    let testCoords = structuredClone(coords);
     for (let i = 0; i < ship.length; i++) {
-      if (this.board[coords[0]][coords[1]] !== undefined) {
+      if (this.board[testCoords[0]][testCoords[1]] !== undefined) {
         throw new Error("Ship overlap");
       }
+      testCoords[index]++;
     }
 
     for (let i = 0; i < ship.length; i++) {
