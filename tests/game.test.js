@@ -43,32 +43,21 @@ describe("Gameboard tests", () => {
 
   describe("Ship placement method tests", () => {
     test("Ship exists in determined coordinates", () => {
-      let threeTileShip = new Ship(3);
+      gb.placeShip(3, [2, 3], "vertical");
 
-      gb.placeShip(threeTileShip, [2, 3], "vertical");
-
-      expect(gb.board[2][3]).toBe(threeTileShip);
-      expect(gb.board[2][4]).toBe(threeTileShip);
-      expect(gb.board[2][5]).toBe(threeTileShip);
+      expect(gb.board[2][3]).toBeDefined();
+      expect(gb.board[2][4]).toBeDefined();
+      expect(gb.board[2][5]).toBeDefined();
     });
 
     test("Ship cannot be placed outside of gameboard boundaries", () => {
-      let twoTileShip = new Ship(2);
-
-      expect(() => gb.placeShip(twoTileShip, [9, 9], "vertical")).toThrow(
-        Error
-      );
+      expect(() => gb.placeShip(2, [9, 9], "vertical")).toThrow(Error);
     });
 
     test("Ships cannot overlap", () => {
-      let twoTileShip = new Ship(2);
-      let secondTwoTileShip = new Ship(2);
+      gb.placeShip(2, [3, 4], "vertical");
 
-      gb.placeShip(twoTileShip, [3, 4], "vertical");
-
-      expect(() =>
-        gb.placeShip(secondTwoTileShip, [2, 5], "horizontal")
-      ).toThrow(Error);
+      expect(() => gb.placeShip(2, [2, 5], "horizontal")).toThrow(Error);
     });
   });
 });
