@@ -1,4 +1,4 @@
-export { Ship, Gameboard };
+export { Ship, Gameboard, Player };
 
 class Ship {
   constructor(length) {
@@ -61,5 +61,11 @@ class Gameboard {
         this.allSunken = true;
       }
     }
+  }
+}
+
+class Player {
+  constructor() {
+    this.board = new Gameboard();
   }
 }
