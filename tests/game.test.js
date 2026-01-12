@@ -87,4 +87,22 @@ describe("Gameboard tests", () => {
       expect(gb.board[5][5].timesHit).toBe(1);
     });
   });
+
+  test("Amount of placed ships is properly tracked", () => {
+    gb.placeShip(1, [1, 1], "horizontal");
+    gb.placeShip(1, [5, 5], "horizontal");
+    expect(gb.placedShips).toBe(2);
+  });
+
+  test("Amount of sunken ships are being tracked", () => {
+    gb.placeShip(1, [1, 1], "horizontal");
+    gb.receiveAttack([1, 1]);
+    expect(gb.sunkenShips).toBe(1);
+  });
+
+  test("Gameboard reports that all ships are destroyed", () => {
+    gb.placeShip(1, [5, 5], "horizontal");
+    gb.receiveAttack([5, 5]);
+    expect(gb.allSunken).toBe(true);
+  });
 });

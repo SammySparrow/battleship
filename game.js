@@ -18,6 +18,9 @@ class Ship {
 class Gameboard {
   constructor() {
     this.board = [[], [], [], [], [], [], [], [], [], []];
+    this.placedShips = 0;
+    this.sunkenShips = 0;
+    this.allSunken = false;
   }
 
   placeShip(size, coords, direction) {
@@ -41,6 +44,8 @@ class Gameboard {
       this.board[coords[0]][coords[1]] = ship;
       coords[index]++;
     }
+
+    this.placedShips++;
   }
 
   receiveAttack(coords) {
@@ -48,6 +53,13 @@ class Gameboard {
       this.board[coords[0]][coords[1]] = "miss";
     } else if (this.board[coords[0]][coords[1]] !== "miss") {
       this.board[coords[0]][coords[1]].hit();
+    }
+
+    if (this.board[coords[0]][coords[1]].sunk) {
+      this.sunkenShips++;
+      if (this.placedShips === this.sunkenShips) {
+        this.allSunken = true;
+      }
     }
   }
 }
