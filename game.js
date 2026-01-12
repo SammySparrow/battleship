@@ -42,4 +42,12 @@ class Gameboard {
       coords[index]++;
     }
   }
+
+  receiveAttack(coords) {
+    if (this.board[coords[0]][coords[1]] === undefined) {
+      this.board[coords[0]][coords[1]] = "miss";
+    } else if (this.board[coords[0]][coords[1]] !== "miss") {
+      this.board[coords[0]][coords[1]].hit();
+    }
+  }
 }

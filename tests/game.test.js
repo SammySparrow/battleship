@@ -74,4 +74,17 @@ describe("Gameboard tests", () => {
       expect(gb.board[1][1]).toBe(gb.board[2][1]);
     });
   });
+
+  describe("receiveAttack method tests", () => {
+    test("Registers missed attack", () => {
+      gb.receiveAttack([5, 5]);
+      expect(gb.board[5][5]).toBe("miss");
+    });
+
+    test("Ship receives attack", () => {
+      gb.placeShip(1, [5, 5], "horizontal");
+      gb.receiveAttack([5, 5]);
+      expect(gb.board[5][5].timesHit).toBe(1);
+    });
+  });
 });
