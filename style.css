@@ -3,3 +3,15 @@
   height: 24px;
   border: 1px solid black;
 }
+
+.wrapper {
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+  width: fit-content;
+  border: 1px solid black;
+}
+
+main {
+  display: flex;
+  gap: 24px;
+}
