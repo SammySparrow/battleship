@@ -28,7 +28,7 @@ class Gameboard {
     let index;
     direction === "horizontal" ? (index = 0) : (index = 1);
 
-    if (coords[index] + size > 9) {
+    if (coords[index] + size > 10) {
       throw new Error("Coords out of bounds");
     }
 
