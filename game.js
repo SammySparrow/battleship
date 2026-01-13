@@ -15,6 +15,13 @@ class Ship {
   }
 }
 
+class Cell {
+  constructor() {
+    this.ship = null;
+    this.isHit = false;
+  }
+}
+
 class Gameboard {
   constructor() {
     this.grid = [[], [], [], [], [], [], [], [], [], []];
