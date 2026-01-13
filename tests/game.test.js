@@ -45,9 +45,9 @@ describe("Gameboard tests", () => {
     test("Ship exists in determined coordinates", () => {
       gb.placeShip(3, [2, 3], "vertical");
 
-      expect(gb.board[2][3]).toBeDefined();
-      expect(gb.board[2][4]).toBeDefined();
-      expect(gb.board[2][5]).toBeDefined();
+      expect(gb.grid[2][3]).toBeDefined();
+      expect(gb.grid[2][4]).toBeDefined();
+      expect(gb.grid[2][5]).toBeDefined();
     });
 
     test("Ship cannot be placed outside of gameboard boundaries", () => {
@@ -64,27 +64,27 @@ describe("Gameboard tests", () => {
       gb.placeShip(2, [1, 1], "horizontal");
       gb.placeShip(2, [5, 5], "horizontal");
 
-      expect(gb.board[1][1]).toBeDefined();
-      expect(gb.board[5][5]).toBeDefined();
-      expect(gb.board[1][1]).not.toBe(gb.board[5][5]);
+      expect(gb.grid[1][1]).toBeDefined();
+      expect(gb.grid[5][5]).toBeDefined();
+      expect(gb.grid[1][1]).not.toBe(gb.grid[5][5]);
     });
 
     test("One ship over two tiles is the same object", () => {
       gb.placeShip(2, [1, 1], "horizontal");
-      expect(gb.board[1][1]).toBe(gb.board[2][1]);
+      expect(gb.grid[1][1]).toBe(gb.grid[2][1]);
     });
   });
 
   describe("receiveAttack method tests", () => {
     test("Registers missed attack", () => {
       gb.receiveAttack([5, 5]);
-      expect(gb.board[5][5]).toBe("miss");
+      expect(gb.grid[5][5]).toBe("miss");
     });
 
     test("Ship receives attack", () => {
       gb.placeShip(1, [5, 5], "horizontal");
       gb.receiveAttack([5, 5]);
-      expect(gb.board[5][5].timesHit).toBe(1);
+      expect(gb.grid[5][5].timesHit).toBe(1);
     });
   });
 

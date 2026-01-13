@@ -17,7 +17,7 @@ class Ship {
 
 class Gameboard {
   constructor() {
-    this.board = [[], [], [], [], [], [], [], [], [], []];
+    this.grid = [[], [], [], [], [], [], [], [], [], []];
     this.placedShips = 0;
     this.sunkenShips = 0;
     this.allSunken = false;
@@ -34,14 +34,14 @@ class Gameboard {
 
     let testCoords = structuredClone(coords);
     for (let i = 0; i < size; i++) {
-      if (this.board[testCoords[0]][testCoords[1]] !== undefined) {
+      if (this.grid[testCoords[0]][testCoords[1]] !== undefined) {
         throw new Error("Ship overlap");
       }
       testCoords[index]++;
     }
 
     for (let i = 0; i < size; i++) {
-      this.board[coords[0]][coords[1]] = ship;
+      this.grid[coords[0]][coords[1]] = ship;
       coords[index]++;
     }
 
@@ -49,13 +49,13 @@ class Gameboard {
   }
 
   receiveAttack(coords) {
-    if (this.board[coords[0]][coords[1]] === undefined) {
-      this.board[coords[0]][coords[1]] = "miss";
-    } else if (this.board[coords[0]][coords[1]] !== "miss") {
-      this.board[coords[0]][coords[1]].hit();
+    if (this.grid[coords[0]][coords[1]] === undefined) {
+      this.grid[coords[0]][coords[1]] = "miss";
+    } else if (this.grid[coords[0]][coords[1]] !== "miss") {
+      this.grid[coords[0]][coords[1]].hit();
     }
 
-    if (this.board[coords[0]][coords[1]].sunk) {
+    if (this.grid[coords[0]][coords[1]].sunk) {
       this.sunkenShips++;
       if (this.placedShips === this.sunkenShips) {
         this.allSunken = true;
