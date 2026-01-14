@@ -1,6 +1,6 @@
 export { render };
 
-function render(parent, player) {
+function render(parent, player, opponent = false) {
   const main = document.querySelector(`${parent}`);
   const gridHolder = document.createElement("div");
   gridHolder.setAttribute("class", "wrapper");
@@ -11,13 +11,13 @@ function render(parent, player) {
       cell.setAttribute("class", "cell");
       cell.setAttribute("data-x", `${i}`);
       cell.setAttribute("data-y", `${j}`);
-      if (
-        player.board.grid[j][i].isHit === false &&
-        player.board.grid[j][i].ship === null
-      ) {
-        cell.style.backgroundColor = "white";
-      } else if (player.board.grid[j][i].isHit === false) {
-        cell.style.backgroundColor = "grey";
+
+      if (player.board.grid[j][i].isHit === false) {
+        if (opponent === false && player.board.grid[j][i].ship !== null) {
+          cell.style.backgroundColor = "grey";
+        } else {
+          cell.style.backgroundColor = "white";
+        }
       } else if (player.board.grid[j][i].ship !== null) {
         cell.style.backgroundColor = "red";
       } else {

@@ -11,6 +11,7 @@ playerOne.board.placeShip(3, [6, 6], "vertical");
 playerOne.board.receiveAttack([0, 1]);
 playerTwo.board.placeShip(4, [0, 0], "vertical");
 playerTwo.board.receiveAttack([7, 1]);
+playerTwo.board.receiveAttack([0, 1]);
 
 render("main", playerOne);
-render("main", playerTwo);
+render("main", playerTwo, true);
