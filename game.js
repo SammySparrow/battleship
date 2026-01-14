@@ -24,10 +24,25 @@ class Cell {
 
 class Gameboard {
   constructor() {
-    this.grid = [[], [], [], [], [], [], [], [], [], []];
+    this.grid = this.initialiseGrid();
     this.placedShips = 0;
     this.sunkenShips = 0;
     this.allSunken = false;
+  }
+
+  initialiseGrid() {
+    const board = [[], [], [], [], [], [], [], [], [], []];
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        let cell = new Cell();
+        board[i][j] = cell;
+      }
+    }
+    return board;
+  }
+
+  reset() {
+    this.grid = this.initialiseGrid();
   }
 
   placeShip(size, coords, direction) {
