@@ -56,14 +56,14 @@ class Gameboard {
 
     let testCoords = structuredClone(coords);
     for (let i = 0; i < size; i++) {
-      if (this.grid[testCoords[0]][testCoords[1]] !== undefined) {
+      if (this.grid[testCoords[0]][testCoords[1]].ship !== null) {
         throw new Error("Ship overlap");
       }
       testCoords[index]++;
     }
 
     for (let i = 0; i < size; i++) {
-      this.grid[coords[0]][coords[1]] = ship;
+      this.grid[coords[0]][coords[1]].ship = ship;
       coords[index]++;
     }
 
