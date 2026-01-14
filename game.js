@@ -71,16 +71,18 @@ class Gameboard {
   }
 
   receiveAttack(coords) {
-    if (this.grid[coords[0]][coords[1]] === undefined) {
-      this.grid[coords[0]][coords[1]] = "miss";
-    } else if (this.grid[coords[0]][coords[1]] !== "miss") {
-      this.grid[coords[0]][coords[1]].hit();
+    if (this.grid[coords[0]][coords[1]].isHit) {
+      throw new Error("Cell is already hit");
     }
+    this.grid[coords[0]][coords[1]].isHit = true;
 
-    if (this.grid[coords[0]][coords[1]].sunk) {
-      this.sunkenShips++;
-      if (this.placedShips === this.sunkenShips) {
-        this.allSunken = true;
+    if (this.grid[coords[0]][coords[1]].ship !== null) {
+      this.grid[coords[0]][coords[1]].ship.hit();
+      if (this.grid[coords[0]][coords[1]].ship.sunk === true) {
+        this.sunkenShips++;
+        if (this.sunkenShips === this.placedShips) {
+          this.allSunken = true;
+        }
       }
     }
   }

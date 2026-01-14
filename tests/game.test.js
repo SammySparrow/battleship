@@ -87,6 +87,11 @@ describe("Gameboard tests", () => {
       expect(gb.grid[5][5].isHit).toBe(true);
       expect(gb.grid[5][5].ship.timesHit).toBe(1);
     });
+
+    test("Throws an error if coordinates have already been hit", () => {
+      gb.receiveAttack([5, 5]);
+      expect(() => gb.receiveAttack([5, 5])).toThrow(Error);
+    });
   });
 
   test("Amount of placed ships is properly tracked", () => {
