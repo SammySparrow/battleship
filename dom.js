@@ -11,12 +11,17 @@ function render(parent, player) {
       cell.setAttribute("class", "cell");
       cell.setAttribute("data-x", `${i}`);
       cell.setAttribute("data-y", `${j}`);
-      if (player.board.grid[j][i] === undefined) {
+      if (
+        player.board.grid[j][i].isHit === false &&
+        player.board.grid[j][i].ship === null
+      ) {
         cell.style.backgroundColor = "white";
-      } else if (player.board.grid[j][i] === "miss") {
+      } else if (player.board.grid[j][i].isHit === false) {
+        cell.style.backgroundColor = "grey";
+      } else if (player.board.grid[j][i].ship !== null) {
         cell.style.backgroundColor = "red";
       } else {
-        cell.style.backgroundColor = "grey";
+        cell.style.backgroundColor = "blue";
       }
       gridHolder.appendChild(cell);
     }
