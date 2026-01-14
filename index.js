@@ -4,14 +4,41 @@ import { render } from "./dom.js";
 const playerOne = new Player();
 const playerTwo = new Player();
 
-playerOne.board.placeShip(4, [0, 0], "vertical");
 playerOne.board.placeShip(5, [1, 5], "horizontal");
+playerOne.board.placeShip(4, [0, 0], "vertical");
 playerOne.board.placeShip(4, [6, 9], "horizontal");
 playerOne.board.placeShip(3, [6, 6], "vertical");
-playerOne.board.receiveAttack([0, 1]);
-playerTwo.board.placeShip(4, [0, 0], "vertical");
-playerTwo.board.receiveAttack([7, 1]);
-playerTwo.board.receiveAttack([0, 1]);
+playerOne.board.placeShip(3, [2, 1], "vertical");
+playerOne.board.placeShip(3, [8, 5], "vertical");
+playerOne.board.placeShip(3, [2, 7], "vertical");
+playerOne.board.placeShip(3, [7, 3], "horizontal");
+playerOne.board.placeShip(3, [4, 1], "horizontal");
+playerOne.board.placeShip(3, [3, 8], "horizontal");
+playerOne.board.placeShip(2, [0, 8], "vertical");
+playerOne.board.placeShip(2, [0, 6], "vertical");
+playerOne.board.placeShip(2, [5, 6], "vertical");
+playerOne.board.placeShip(2, [5, 2], "vertical");
+playerOne.board.placeShip(2, [4, 2], "vertical");
 
-render("main", playerOne);
-render("main", playerTwo, true);
+playerTwo.board.placeShip(5, [1, 5], "horizontal");
+playerTwo.board.placeShip(4, [0, 0], "vertical");
+playerTwo.board.placeShip(4, [6, 9], "horizontal");
+playerTwo.board.placeShip(3, [6, 6], "vertical");
+playerTwo.board.placeShip(3, [2, 1], "vertical");
+playerTwo.board.placeShip(3, [8, 5], "vertical");
+playerTwo.board.placeShip(3, [2, 7], "vertical");
+playerTwo.board.placeShip(3, [7, 3], "horizontal");
+playerTwo.board.placeShip(3, [4, 1], "horizontal");
+playerTwo.board.placeShip(3, [3, 8], "horizontal");
+playerTwo.board.placeShip(2, [0, 8], "vertical");
+playerTwo.board.placeShip(2, [0, 6], "vertical");
+playerTwo.board.placeShip(2, [5, 6], "vertical");
+playerTwo.board.placeShip(2, [5, 2], "vertical");
+playerTwo.board.placeShip(2, [4, 2], "vertical");
+
+render(playerOne);
+render(playerTwo, true);
+
+document.querySelector("main").addEventListener("click", (e) => {
+  console.log(e.target);
+});

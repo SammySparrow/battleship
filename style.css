@@ -2,6 +2,12 @@
   width: 24px;
   height: 24px;
   border: 1px solid black;
+  transition: all 0.2s ease;
+}
+
+.cell:hover {
+  border: 1px solid red;
+  scale: 1.1;
 }
 
 .wrapper {
@@ -12,6 +18,10 @@
 }
 
 main {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   gap: 24px;
+  justify-content: center;
+  align-items: center;
 }
