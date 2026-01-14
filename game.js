@@ -91,5 +91,12 @@ class Gameboard {
 class Player {
   constructor() {
     this.board = new Gameboard();
+    this.movesTaken = [];
   }
+
+  randomiseCoords() {
+    return [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9)];
+  }
+
+  makeMove(target, coords = this.randomiseCoords()) {}
 }
