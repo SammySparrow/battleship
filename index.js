@@ -47,4 +47,6 @@ document.querySelector("main").addEventListener("click", (e) => {
     ]);
     render(playerTwo, e.target.parentNode, true);
   }
+  playerTwo.randomMove(playerOne);
+  render(playerOne, document.querySelector("[data-opp='false']"));
 });
