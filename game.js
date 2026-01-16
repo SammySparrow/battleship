@@ -98,5 +98,11 @@ class Player {
     return [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9)];
   }
 
-  makeMove(target, coords = this.randomiseCoords()) {}
+  randomMove(target) {
+    let coords = this.randomiseCoords();
+    while (target.board.grid[coords[0]][coords[1]].isHit) {
+      coords = this.randomiseCoords();
+    }
+    target.board.receiveAttack(coords);
+  }
 }
