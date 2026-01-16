@@ -1,11 +1,15 @@
-export { render };
+export { render, initialRender };
 
-function render(player, opponent = false, parent = "main") {
+function initialRender(player, opponent = false, parent = "main") {
   const main = document.querySelector(`${parent}`);
   const gridHolder = document.createElement("div");
   gridHolder.setAttribute("class", "wrapper");
   gridHolder.setAttribute("data-opp", `${opponent}`);
+  render(player, gridHolder, opponent);
+  main.appendChild(gridHolder);
+}
 
+function render(player, wrapper, opponent = false) {
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
       let cell = document.createElement("div");
@@ -24,9 +28,7 @@ function render(player, opponent = false, parent = "main") {
       } else {
         cell.style.backgroundColor = "blue";
       }
-      gridHolder.appendChild(cell);
+      wrapper.appendChild(cell);
     }
   }
-
-  main.appendChild(gridHolder);
 }

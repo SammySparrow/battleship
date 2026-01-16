@@ -1,5 +1,5 @@
 import { Player } from "./game.js";
-import { render } from "./dom.js";
+import { render, initialRender } from "./dom.js";
 
 const playerOne = new Player();
 const playerTwo = new Player();
@@ -36,9 +36,16 @@ playerTwo.board.placeShip(2, [5, 6], "vertical");
 playerTwo.board.placeShip(2, [5, 2], "vertical");
 playerTwo.board.placeShip(2, [4, 2], "vertical");
 
-render(playerOne);
-render(playerTwo, true);
+initialRender(playerOne);
+initialRender(playerTwo, true);
 
 document.querySelector("main").addEventListener("click", (e) => {
-  console.log(e.target);
+  console.log(document.querySelector("[data-opp='true']"));
+  if (e.target.parentNode.dataset.opp === "true") {
+    playerTwo.board.receiveAttack([
+      parseInt(e.target.dataset.x),
+      parseInt(e.target.dataset.y),
+    ]);
+  }
+  render(playerTwo, e.target.parentNode, true);
 });
