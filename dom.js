@@ -10,6 +10,9 @@ function initialRender(player, opponent = false, parent = "main") {
 }
 
 function render(player, wrapper, opponent = false) {
+  while (wrapper.firstChild !== null) {
+    wrapper.removeChild(wrapper.firstChild);
+  }
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
       let cell = document.createElement("div");

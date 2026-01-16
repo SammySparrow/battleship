@@ -40,12 +40,11 @@ initialRender(playerOne);
 initialRender(playerTwo, true);
 
 document.querySelector("main").addEventListener("click", (e) => {
-  console.log(document.querySelector("[data-opp='true']"));
   if (e.target.parentNode.dataset.opp === "true") {
     playerTwo.board.receiveAttack([
       parseInt(e.target.dataset.x),
       parseInt(e.target.dataset.y),
     ]);
+    render(playerTwo, e.target.parentNode, true);
   }
-  render(playerTwo, e.target.parentNode, true);
 });
