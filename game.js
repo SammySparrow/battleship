@@ -95,7 +95,7 @@ class Player {
   }
 
   randomiseCoords() {
-    return [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9)];
+    return [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
   }
 
   randomMove(target) {

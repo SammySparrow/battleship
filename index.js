@@ -46,7 +46,7 @@ document.querySelector("main").addEventListener("click", (e) => {
       parseInt(e.target.dataset.y),
     ]);
     render(playerTwo, e.target.parentNode, true);
+    playerTwo.randomMove(playerOne);
+    render(playerOne, document.querySelector("[data-opp='false']"));
   }
-  playerTwo.randomMove(playerOne);
-  render(playerOne, document.querySelector("[data-opp='false']"));
 });
