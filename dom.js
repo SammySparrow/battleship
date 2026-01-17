@@ -1,4 +1,4 @@
-export { render, initialRender, displayResults, updateButton };
+export { render, initialRender, displayResults, updateButton, clearInitialUI };
 
 function initialRender(player, opponent = false, parent = ".grid-wrap") {
   const main = document.querySelector(`${parent}`);
@@ -51,4 +51,11 @@ function updateButton() {
   nextTurn.setAttribute("id", "next-turn");
   nextTurn.textContent = "Next Turn";
   wrapper.appendChild(nextTurn);
+}
+
+function clearInitialUI() {
+  let init = document.querySelector(".initialise");
+  while (init.firstChild !== null) {
+    init.removeChild(init.firstChild);
+  }
 }
