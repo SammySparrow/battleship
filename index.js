@@ -1,5 +1,5 @@
 import { Player } from "./game.js";
-import { render, initialRender, displayResults } from "./dom.js";
+import { render, initialRender, displayResults, updateButton } from "./dom.js";
 
 const playerOne = new Player();
 const playerTwo = new Player();
@@ -38,7 +38,7 @@ playerTwo.board.placeShip(2, [4, 2], "vertical");
 
 initialRender(playerOne);
 initialRender(playerTwo, true);
-displayResults("Player One");
+updateButton();
 
 document.querySelector("main").addEventListener("click", (e) => {
   if (e.target.parentNode.dataset.opp === "true") {
@@ -52,5 +52,8 @@ document.querySelector("main").addEventListener("click", (e) => {
     }
     playerTwo.randomMove(playerOne);
     render(playerOne, document.querySelector("[data-opp='false']"));
+    if (playerOne.board.allSunken === true) {
+      displayResults("Player Two");
+    }
   }
 });

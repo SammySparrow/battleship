@@ -1,4 +1,4 @@
-export { render, initialRender, displayResults };
+export { render, initialRender, displayResults, updateButton };
 
 function initialRender(player, opponent = false, parent = ".grid-wrap") {
   const main = document.querySelector(`${parent}`);
@@ -43,4 +43,12 @@ function displayResults(winner) {
   gameStatus.textContent = "Game Over!";
   declareWinner.textContent = `${winner} Wins!`;
   status.append(gameStatus, declareWinner);
+}
+
+function updateButton() {
+  const wrapper = document.querySelector(".interact-wrap");
+  const nextTurn = document.createElement("button");
+  nextTurn.setAttribute("id", "next-turn");
+  nextTurn.textContent = "Next Turn";
+  wrapper.appendChild(nextTurn);
 }
