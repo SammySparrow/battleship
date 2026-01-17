@@ -8,6 +8,53 @@
   </head>
   <body>
     <main>
+      <section class="initialise">
+        <h2>Choose player types</h2>
+        <div>
+          <p>Player One</p>
+          <form id="player-one">
+            <div>
+              <input
+                type="radio"
+                name="player-one"
+                id="human"
+                value="human"
+                checked
+              />
+              <label for="human">Human</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="player-one"
+                id="computer"
+                value="computer"
+              />
+              <label for="computer">Computer</label>
+            </div>
+          </form>
+        </div>
+        <div>
+          <p>Player Two</p>
+          <form id="player-two">
+            <div>
+              <input type="radio" name="player-two" id="human" value="human" />
+              <label for="human">Human</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="player-two"
+                id="computer"
+                value="computer"
+                checked
+              />
+              <label for="computer">Computer</label>
+            </div>
+          </form>
+        </div>
+        <button id="start-game">Start Game</button>
+      </section>
       <section class="game-wrap">
         <section class="status-wrap"></section>
         <section class="grid-wrap"></section>

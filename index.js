@@ -8,7 +8,7 @@ class Controller {
     this.currentPlayer = null;
   }
 }
-
+/* 
 const playerOne = new Player();
 const playerTwo = new Player();
 
@@ -46,10 +46,17 @@ playerTwo.board.placeShip(2, [4, 2], "vertical");
 
 initialRender(playerOne);
 initialRender(playerTwo, true);
-updateButton();
+updateButton(); */
 
 document.querySelector("main").addEventListener("click", (e) => {
-  if (e.target.parentNode.dataset.opp === "true") {
+  if (e.target.id === "start-game") {
+    const inputOne = new FormData(document.querySelector("#player-one"));
+    const inputTwo = new FormData(document.querySelector("#player-two"));
+    let playerOne = new Player(inputOne.get("player-one"));
+    let playerTwo = new Player(inputTwo.get("player-two"));
+    let newGame = new Controller(playerOne, playerTwo);
+  }
+  /*   if (e.target.parentNode.dataset.opp === "true") {
     playerTwo.board.receiveAttack([
       parseInt(e.target.dataset.x),
       parseInt(e.target.dataset.y),
@@ -63,5 +70,5 @@ document.querySelector("main").addEventListener("click", (e) => {
     if (playerOne.board.allSunken === true) {
       displayResults("Player Two");
     }
-  }
+  } */
 });
