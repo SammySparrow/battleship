@@ -1,6 +1,14 @@
 import { Player } from "./game.js";
 import { render, initialRender, displayResults, updateButton } from "./dom.js";
 
+class Controller {
+  constructor(playerOne, playerTwo) {
+    this.playerOne = playerOne;
+    this.playerTwo = playerTwo;
+    this.currentPlayer = null;
+  }
+}
+
 const playerOne = new Player();
 const playerTwo = new Player();
 

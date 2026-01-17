@@ -89,10 +89,12 @@ class Gameboard {
 }
 
 class Player {
-  constructor() {
+  constructor(type) {
     this.board = new Gameboard();
-    this.movesTaken = [];
+    this.typeOf = determineType();
   }
+
+  determineType(input) {}
 
   randomiseCoords() {
     return [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
