@@ -1,15 +1,16 @@
 export { render, initialRender, displayResults, updateButton, clearInitialUI };
 
-function initialRender(player, opponent = false, parent = ".grid-wrap") {
-  const main = document.querySelector(`${parent}`);
+function initialRender(player, owner, currentPlayer) {
+  const main = document.querySelector(".grid-wrap");
   const gridHolder = document.createElement("div");
+
   gridHolder.setAttribute("class", "wrapper");
-  gridHolder.setAttribute("data-opp", `${opponent}`);
-  render(player, gridHolder, opponent);
+  gridHolder.setAttribute("data-owner", `${owner}`);
+  render(player, currentPlayer, gridHolder);
   main.appendChild(gridHolder);
 }
 
-function render(player, wrapper, opponent = false) {
+function render(player, currentPlayer, wrapper) {
   while (wrapper.firstChild !== null) {
     wrapper.removeChild(wrapper.firstChild);
   }
@@ -21,7 +22,7 @@ function render(player, wrapper, opponent = false) {
       cell.setAttribute("data-y", `${i}`);
 
       if (player.board.grid[j][i].isHit === false) {
-        if (opponent === false && player.board.grid[j][i].ship !== null) {
+        if (player === currentPlayer && player.board.grid[j][i].ship !== null) {
           cell.style.backgroundColor = "grey";
         } else {
           cell.style.backgroundColor = "white";

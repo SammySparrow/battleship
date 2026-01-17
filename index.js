@@ -11,13 +11,24 @@ class Controller {
   constructor(playerOne, playerTwo) {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
-    this.currentPlayer = null;
+    this.currentPlayer = this.playerOne;
+    this.phase = "ships";
+  }
+
+  switchTurns() {
+    this.currentPlayer === this.playerOne
+      ? (this.currentPlayer = this.playerTwo)
+      : (this.currentPlayer = this.playerOne);
   }
 
   initialiseUI() {
     clearInitialUI();
-    initialRender(this.playerOne);
-    initialRender(this.playerTwo);
+    initialRender(this.playerOne, "player-one", this.currentPlayer);
+    initialRender(this.playerTwo, "player-two", this.currentPlayer);
+  }
+
+  selectCell(coords, owner) {
+    let target;
   }
 
   /* TEMP */
@@ -53,28 +64,32 @@ class Controller {
     this.playerTwo.board.placeShip(2, [5, 6], "vertical");
     this.playerTwo.board.placeShip(2, [5, 2], "vertical");
     this.playerTwo.board.placeShip(2, [4, 2], "vertical");
+
+    this.phase = "move";
   }
   /* TEMP */
 }
-/* 
-const playerOne = new Player();
-const playerTwo = new Player();
 
-
-
-initialRender(playerOne);
-initialRender(playerTwo, true);
-updateButton(); */
+let playerOne;
+let playerTwo;
+let control;
 
 document.querySelector("main").addEventListener("click", (e) => {
   if (e.target.id === "start-game") {
     const inputOne = new FormData(document.querySelector("#player-one"));
     const inputTwo = new FormData(document.querySelector("#player-two"));
-    let playerOne = new Player(inputOne.get("player-one"));
-    let playerTwo = new Player(inputTwo.get("player-two"));
-    let control = new Controller(playerOne, playerTwo);
+    playerOne = new Player(inputOne.get("player-one"));
+    playerTwo = new Player(inputTwo.get("player-two"));
+    control = new Controller(playerOne, playerTwo);
     control.placeShips();
     control.initialiseUI();
+  }
+
+  if (e.target.className === "cell" && control.phase === "move") {
+    control.selectCell(
+      [parseInt(e.target.dataset.x), parseInt(e.target.dataset.y)],
+      e.target.parentNode.dataset.owner
+    );
   }
   /*   if (e.target.parentNode.dataset.opp === "true") {
     playerTwo.board.receiveAttack([
