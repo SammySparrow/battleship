@@ -1,6 +1,6 @@
-export { render, initialRender };
+export { render, initialRender, displayResults };
 
-function initialRender(player, opponent = false, parent = "main") {
+function initialRender(player, opponent = false, parent = ".grid-wrap") {
   const main = document.querySelector(`${parent}`);
   const gridHolder = document.createElement("div");
   gridHolder.setAttribute("class", "wrapper");
@@ -34,4 +34,13 @@ function render(player, wrapper, opponent = false) {
       wrapper.appendChild(cell);
     }
   }
+}
+
+function displayResults(winner) {
+  const status = document.querySelector(".status-wrap");
+  const gameStatus = document.createElement("div");
+  const declareWinner = document.createElement("div");
+  gameStatus.textContent = "Game Over!";
+  declareWinner.textContent = `${winner} Wins!`;
+  status.append(gameStatus, declareWinner);
 }

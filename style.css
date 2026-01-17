@@ -1,3 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  text-align: center;
+  font-weight: 700;
+}
+
 .cell {
   width: 24px;
   height: 24px;
@@ -16,12 +29,37 @@
   width: fit-content;
   border: 1px solid black;
 }
-
 main {
   width: 100vw;
   height: 100vh;
+}
+
+main,
+.game-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-wrap {
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid-wrap {
   display: flex;
   gap: 24px;
   justify-content: center;
   align-items: center;
+}
+
+.interact-wrap,
+.status-wrap {
+  height: 240px;
+}
+
+.status-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
