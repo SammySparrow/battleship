@@ -63,7 +63,7 @@ function currentPlayerDisplay(currentPlayer) {
   statusWrapper.append(currentText, player);
 }
 
-function moveStatus(coords, hit = true, player) {
+function moveStatus(coords, hit, player) {
   const statusWrapper = document.querySelector(".status-wrap");
   cleanUp(statusWrapper);
   const coordMessage = document.createElement("div");

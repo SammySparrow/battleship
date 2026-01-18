@@ -55,7 +55,7 @@ class Controller {
     owner === "player-one"
       ? (playerName = "Player Two")
       : (playerName = "Player One");
-    target.board.grid[coords[0]][coords[1]].isHit === true
+    target.board.grid[coords[0]][coords[1]].ship !== null
       ? (checkHit = true)
       : (checkHit = false);
     moveStatus(coords, checkHit, playerName);
