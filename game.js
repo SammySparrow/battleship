@@ -131,7 +131,14 @@ class Player {
         ? (coords = this.attackQueue.pop())
         : (coords = this.randomiseCoords());
     }
-    if (target.board.grid[coords[0]][coords[1]].ship !== null) {
+    /* let targetCell = target.board.grid[coords[0]][coords[1]]; */
+    if (
+      target.board.grid[coords[0]][coords[1]].ship !== null &&
+      Math.abs(
+        target.board.grid[coords[0]][coords[1]].ship.length -
+          target.board.grid[coords[0]][coords[1]].ship.timesHit
+      ) !== 1
+    ) {
       for (
         let i = 0;
         i < target.board.grid[coords[0]][coords[1]].edges.length;
@@ -139,6 +146,14 @@ class Player {
       ) {
         this.attackQueue.push(target.board.grid[coords[0]][coords[1]].edges[i]);
       }
+    }
+    if (
+      Math.abs(
+        target.board.grid[coords[0]][coords[1]].ship.length -
+          target.board.grid[coords[0]][coords[1]].ship.timesHit
+      ) === 1
+    ) {
+      this.attackQueue = [];
     }
     return coords;
   }
