@@ -6,6 +6,7 @@ import {
   updateButton,
   cleanUp,
   currentPlayerDisplay,
+  moveStatus,
 } from "./dom.js";
 
 class Controller {
@@ -17,9 +18,16 @@ class Controller {
   }
 
   switchTurns() {
-    this.currentPlayer === this.playerOne
-      ? (this.currentPlayer = this.playerTwo)
-      : (this.currentPlayer = this.playerOne);
+    let playerName;
+    if (this.currentPlayer === this.playerOne) {
+      this.currentPlayer = this.playerTwo;
+      playerName = "Player Two";
+    } else {
+      this.currentPlayer = this.playerOne;
+      playerName = "Player One";
+    }
+    currentPlayerDisplay(playerName);
+    this.phase = "move";
   }
 
   initialiseUI() {
@@ -28,7 +36,7 @@ class Controller {
     currentPlayerDisplay("Player One");
   }
 
-  selectCell(coords, owner) {
+  move(coords, owner) {
     let target;
     owner === "player-one"
       ? (target = this.playerOne)
@@ -42,6 +50,16 @@ class Controller {
       this.currentPlayer,
       document.querySelector(`[data-owner="${owner}"]`)
     );
+    let checkHit;
+    let playerName;
+    owner === "player-one"
+      ? (playerName = "Player Two")
+      : (playerName = "Player One");
+    target.board.grid[coords[0]][coords[1]].isHit === true
+      ? (checkHit = true)
+      : (checkHit = false);
+    moveStatus(coords, checkHit, playerName);
+    updateButton();
     this.phase = "next";
   }
 
@@ -100,10 +118,14 @@ document.querySelector("main").addEventListener("click", (e) => {
   }
 
   if (e.target.className === "cell" && control.phase === "move") {
-    control.selectCell(
+    control.move(
       [parseInt(e.target.dataset.x), parseInt(e.target.dataset.y)],
       e.target.parentNode.dataset.owner
     );
+  }
+
+  if (e.target.id === "next-turn") {
+    control.switchTurns();
   }
   /*   if (e.target.parentNode.dataset.opp === "true") {
     playerTwo.board.receiveAttack([

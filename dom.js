@@ -5,6 +5,7 @@ export {
   updateButton,
   cleanUp,
   currentPlayerDisplay,
+  moveStatus,
 };
 
 function initialRender(player, owner, currentPlayer) {
@@ -67,7 +68,9 @@ function moveStatus(coords, hit = true, player) {
   cleanUp(statusWrapper);
   const coordMessage = document.createElement("div");
   const hitMessage = document.createElement("div");
-  coordMessage.textContent = `${player} fires at x: ${coords[0]} y: ${coords[1]}}`;
+  coordMessage.textContent = `${player} fires at x: ${coords[0] + 1} y: ${
+    coords[1] + 1
+  }`;
   hit === true
     ? (hitMessage.textContent = "It's a hit!")
     : (hitMessage.textContent = "It's a miss...");
@@ -76,6 +79,7 @@ function moveStatus(coords, hit = true, player) {
 
 function updateButton() {
   const wrapper = document.querySelector(".interact-wrap");
+  cleanUp(wrapper);
   const nextTurn = document.createElement("button");
   nextTurn.setAttribute("id", "next-turn");
   nextTurn.textContent = "Next Turn";
