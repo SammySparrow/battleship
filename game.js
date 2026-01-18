@@ -113,6 +113,7 @@ class Player {
   constructor(type) {
     this.board = new Gameboard();
     this.type = type;
+    this.attackQueue = [];
   }
 
   randomiseCoords() {
@@ -120,9 +121,24 @@ class Player {
   }
 
   randomMove(target) {
-    let coords = this.randomiseCoords();
+    let coords;
+    this.attackQueue.length !== 0
+      ? (coords = this.attackQueue.pop())
+      : (coords = this.randomiseCoords());
+
     while (target.board.grid[coords[0]][coords[1]].isHit) {
-      coords = this.randomiseCoords();
+      this.attackQueue.length !== 0
+        ? (coords = this.attackQueue.pop())
+        : (coords = this.randomiseCoords());
+    }
+    if (target.board.grid[coords[0]][coords[1]].ship !== null) {
+      for (
+        let i = 0;
+        i < target.board.grid[coords[0]][coords[1]].edges.length;
+        i++
+      ) {
+        this.attackQueue.push(target.board.grid[coords[0]][coords[1]].edges[i]);
+      }
     }
     return coords;
   }
