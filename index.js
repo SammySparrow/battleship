@@ -28,6 +28,19 @@ class Controller {
     }
     currentPlayerDisplay(playerName);
     this.phase = "move";
+    if (this.currentPlayer.type === "computer") {
+      let target;
+      let name;
+      if (this.currentPlayer === this.playerOne) {
+        target = this.playerTwo;
+        name = "player-two";
+      } else {
+        target = this.playerOne;
+        name = "player-one";
+      }
+      let newCoords = this.currentPlayer.randomMove(target);
+      this.move(newCoords, name);
+    }
   }
 
   initialiseUI() {
@@ -127,6 +140,7 @@ document.querySelector("main").addEventListener("click", (e) => {
   if (e.target.id === "next-turn") {
     control.switchTurns();
   }
+  console.log(control.playerTwo.type);
   /*   if (e.target.parentNode.dataset.opp === "true") {
     playerTwo.board.receiveAttack([
       parseInt(e.target.dataset.x),

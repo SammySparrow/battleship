@@ -103,6 +103,6 @@ class Player {
     while (target.board.grid[coords[0]][coords[1]].isHit) {
       coords = this.randomiseCoords();
     }
-    target.board.receiveAttack(coords);
+    return coords;
   }
 }
