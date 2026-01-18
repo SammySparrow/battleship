@@ -137,6 +137,7 @@ document.querySelector("main").addEventListener("click", (e) => {
   }
 
   if (e.target.className === "cell" && control.phase === "move") {
+    console.log(playerOne);
     control.move(
       [parseInt(e.target.dataset.x), parseInt(e.target.dataset.y)],
       e.target.parentNode.dataset.owner

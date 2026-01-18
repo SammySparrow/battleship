@@ -16,9 +16,30 @@ class Ship {
 }
 
 class Cell {
-  constructor() {
+  constructor(x, y) {
     this.ship = null;
     this.isHit = false;
+    this.coords = [x, y];
+    this.edges = this.listEdges(this.coords);
+  }
+
+  listEdges(coords) {
+    let list = [];
+    let x = coords[0];
+    let y = coords[1];
+    if (x + 1 <= 9) {
+      list.push([x + 1, y]);
+    }
+    if (x - 1 >= 0) {
+      list.push([x - 1, y]);
+    }
+    if (y + 1 <= 9) {
+      list.push([x, y + 1]);
+    }
+    if (y - 1 >= 0) {
+      list.push([x, y - 1]);
+    }
+    return list;
   }
 }
 
@@ -34,7 +55,7 @@ class Gameboard {
     const board = [[], [], [], [], [], [], [], [], [], []];
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        let cell = new Cell();
+        let cell = new Cell(i, j);
         board[i][j] = cell;
       }
     }
