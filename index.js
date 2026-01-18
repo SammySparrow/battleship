@@ -66,17 +66,23 @@ class Controller {
       document.querySelector(`[data-owner="${owner}"]`)
     );
     let checkHit;
+    let checkSunk;
     let playerName;
     owner === "player-one"
       ? (playerName = "Player Two")
       : (playerName = "Player One");
-    target.board.grid[coords[0]][coords[1]].ship !== null
-      ? (checkHit = true)
-      : (checkHit = false);
+    if (target.board.grid[coords[0]][coords[1]].ship !== null) {
+      checkHit = true;
+      target.board.grid[coords[0]][coords[1]].ship.sunk
+        ? (checkSunk = true)
+        : (checkSunk = false);
+    } else {
+      checkHit = false;
+    }
     if (target.board.allSunken === true) {
       displayResults(playerName);
     } else {
-      moveStatus(coords, checkHit, playerName);
+      moveStatus(coords, checkHit, playerName, checkSunk);
       updateButton();
       this.phase = "next";
     }
@@ -112,7 +118,6 @@ let playerTwo;
 let control;
 
 document.querySelector("main").addEventListener("click", (e) => {
-  console.log(playerTwo);
   if (e.target.id === "start-game") {
     const inputOne = new FormData(document.querySelector("#player-one"));
     const inputTwo = new FormData(document.querySelector("#player-two"));

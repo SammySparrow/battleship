@@ -114,6 +114,7 @@ class Player {
     this.board = new Gameboard();
     this.type = type;
     this.attackQueue = [];
+    this.consecutiveAttacks = [];
   }
 
   randomiseCoords() {
@@ -131,29 +132,43 @@ class Player {
         ? (coords = this.attackQueue.pop())
         : (coords = this.randomiseCoords());
     }
-    /* let targetCell = target.board.grid[coords[0]][coords[1]]; */
-    if (
-      target.board.grid[coords[0]][coords[1]].ship !== null &&
-      Math.abs(
-        target.board.grid[coords[0]][coords[1]].ship.length -
-          target.board.grid[coords[0]][coords[1]].ship.timesHit
-      ) !== 1
-    ) {
-      for (
-        let i = 0;
-        i < target.board.grid[coords[0]][coords[1]].edges.length;
-        i++
-      ) {
-        this.attackQueue.push(target.board.grid[coords[0]][coords[1]].edges[i]);
+
+    let targetCell = target.board.grid[coords[0]][coords[1]];
+    if (targetCell.ship !== null) {
+      this.consecutiveAttacks.push(coords);
+      if (Math.abs(targetCell.ship.length - targetCell.ship.timesHit) === 1) {
+        this.attackQueue = [];
+        this.consecutiveAttacks = [];
+      } else if (this.consecutiveAttacks.length === 2) {
+        this.attackQueue = [];
+        let coordOne = structuredClone(this.consecutiveAttacks[0]);
+        let coordTwo = structuredClone(this.consecutiveAttacks[1]);
+        let index;
+        Math.abs(coordOne[0] - coordTwo[0]) === 1 ? (index = 0) : (index = 1);
+        if (coordOne[index] > coordTwo[index]) {
+          if (coordOne[index] + 1 <= 9) {
+            coordOne[index]++;
+            this.attackQueue.push(coordOne);
+          }
+          if (coordTwo[index] - 1 >= 0) {
+            coordTwo[index]--;
+            this.attackQueue.push(coordTwo);
+          }
+        } else {
+          if (coordOne[index] - 1 >= 0) {
+            coordOne[index]--;
+            this.attackQueue.push(coordOne);
+          }
+          if (coordTwo[index] + 1 >= 9) {
+            coordTwo[index]++;
+            this.attackQueue.push(coordTwo);
+          }
+        }
+      } else {
+        for (let i = 0; i < targetCell.edges.length; i++) {
+          this.attackQueue.push(targetCell.edges[i]);
+        }
       }
-    }
-    if (
-      Math.abs(
-        target.board.grid[coords[0]][coords[1]].ship.length -
-          target.board.grid[coords[0]][coords[1]].ship.timesHit
-      ) === 1
-    ) {
-      this.attackQueue = [];
     }
     return coords;
   }

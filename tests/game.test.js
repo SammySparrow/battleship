@@ -1,4 +1,4 @@
-import { Ship, Gameboard } from "../game";
+import { Ship, Gameboard, Player } from "../game";
 
 describe("Ship tests", () => {
   let ship;

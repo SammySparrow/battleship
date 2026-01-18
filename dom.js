@@ -69,18 +69,22 @@ function currentPlayerDisplay(currentPlayer) {
   statusWrapper.append(currentText, player);
 }
 
-function moveStatus(coords, hit, player) {
+function moveStatus(coords, hit, player, sunk = false) {
   const statusWrapper = document.querySelector(".status-wrap");
   cleanUp(statusWrapper);
   const coordMessage = document.createElement("div");
   const hitMessage = document.createElement("div");
+  const sunkMessage = document.createElement("div");
   coordMessage.textContent = `${player} fires at x: ${coords[0] + 1} y: ${
     coords[1] + 1
   }`;
   hit === true
     ? (hitMessage.textContent = "It's a hit!")
     : (hitMessage.textContent = "It's a miss...");
-  statusWrapper.append(coordMessage, hitMessage);
+  if (sunk) {
+    sunkMessage.textContent = "Ship destroyed!";
+  }
+  statusWrapper.append(coordMessage, hitMessage, sunkMessage);
 }
 
 function updateButton() {
