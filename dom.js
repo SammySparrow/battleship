@@ -1,6 +1,14 @@
-export { render, initialRender, displayResults, updateButton, clearInitialUI };
+export {
+  render,
+  initialRender,
+  displayResults,
+  updateButton,
+  cleanUp,
+  currentPlayerDisplay,
+};
 
 function initialRender(player, owner, currentPlayer) {
+  cleanUp(document.querySelector(".initialise"));
   const main = document.querySelector(".grid-wrap");
   const gridHolder = document.createElement("div");
 
@@ -11,9 +19,7 @@ function initialRender(player, owner, currentPlayer) {
 }
 
 function render(player, currentPlayer, wrapper) {
-  while (wrapper.firstChild !== null) {
-    wrapper.removeChild(wrapper.firstChild);
-  }
+  cleanUp(wrapper);
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
       let cell = document.createElement("div");
@@ -46,6 +52,15 @@ function displayResults(winner) {
   status.append(gameStatus, declareWinner);
 }
 
+function currentPlayerDisplay(currentPlayer) {
+  const statusWrapper = document.querySelector(".status-wrap");
+  cleanUp(statusWrapper);
+  const currentText = document.createElement("div");
+  const player = document.createElement("div");
+  currentText.textContent = "Current Player:";
+  player.textContent = `${currentPlayer}`;
+}
+
 function updateButton() {
   const wrapper = document.querySelector(".interact-wrap");
   const nextTurn = document.createElement("button");
@@ -54,9 +69,8 @@ function updateButton() {
   wrapper.appendChild(nextTurn);
 }
 
-function clearInitialUI() {
-  let init = document.querySelector(".initialise");
-  while (init.firstChild !== null) {
-    init.removeChild(init.firstChild);
+function cleanUp(wrapper) {
+  while (wrapper.firstChild !== null) {
+    wrapper.removeChild(wrapper.firstChild);
   }
 }

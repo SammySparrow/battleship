@@ -4,7 +4,8 @@ import {
   initialRender,
   displayResults,
   updateButton,
-  clearInitialUI,
+  cleanUp,
+  currentPlayerDisplay,
 } from "./dom.js";
 
 class Controller {
@@ -22,13 +23,25 @@ class Controller {
   }
 
   initialiseUI() {
-    clearInitialUI();
     initialRender(this.playerOne, "player-one", this.currentPlayer);
     initialRender(this.playerTwo, "player-two", this.currentPlayer);
   }
 
   selectCell(coords, owner) {
     let target;
+    owner === "player-one"
+      ? (target = this.playerOne)
+      : (target = this.playerTwo);
+    if (target === this.currentPlayer) {
+      return;
+    }
+    target.board.receiveAttack(coords);
+    render(
+      target,
+      this.currentPlayer,
+      document.querySelector(`[data-owner="${owner}"]`)
+    );
+    this.phase = "next";
   }
 
   /* TEMP */
