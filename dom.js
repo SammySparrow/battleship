@@ -59,6 +59,19 @@ function currentPlayerDisplay(currentPlayer) {
   const player = document.createElement("div");
   currentText.textContent = "Current Player:";
   player.textContent = `${currentPlayer}`;
+  statusWrapper.append(currentText, player);
+}
+
+function moveStatus(coords, hit = true, player) {
+  const statusWrapper = document.querySelector(".status-wrap");
+  cleanUp(statusWrapper);
+  const coordMessage = document.createElement("div");
+  const hitMessage = document.createElement("div");
+  coordMessage.textContent = `${player} fires at x: ${coords[0]} y: ${coords[1]}}`;
+  hit === true
+    ? (hitMessage.textContent = "It's a hit!")
+    : (hitMessage.textContent = "It's a miss...");
+  statusWrapper.append(coordMessage, hitMessage);
 }
 
 function updateButton() {

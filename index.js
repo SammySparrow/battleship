@@ -25,6 +25,7 @@ class Controller {
   initialiseUI() {
     initialRender(this.playerOne, "player-one", this.currentPlayer);
     initialRender(this.playerTwo, "player-two", this.currentPlayer);
+    currentPlayerDisplay("Player One");
   }
 
   selectCell(coords, owner) {
