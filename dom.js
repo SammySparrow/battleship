@@ -6,6 +6,7 @@ export {
   cleanUp,
   currentPlayerDisplay,
   moveStatus,
+  removeNextButton,
 };
 
 function initialRender(player, owner, currentPlayer) {
@@ -29,7 +30,11 @@ function render(player, currentPlayer, wrapper) {
       cell.setAttribute("data-y", `${i}`);
 
       if (player.board.grid[j][i].isHit === false) {
-        if (player === currentPlayer && player.board.grid[j][i].ship !== null) {
+        if (
+          (player === currentPlayer && player.board.grid[j][i].ship !== null) ||
+          (currentPlayer.type === "computer" &&
+            player.board.grid[j][i].ship !== null)
+        ) {
           cell.style.backgroundColor = "grey";
         } else {
           cell.style.backgroundColor = "white";
@@ -46,6 +51,7 @@ function render(player, currentPlayer, wrapper) {
 
 function displayResults(winner) {
   const status = document.querySelector(".status-wrap");
+  cleanUp(status);
   const gameStatus = document.createElement("div");
   const declareWinner = document.createElement("div");
   gameStatus.textContent = "Game Over!";
@@ -84,6 +90,10 @@ function updateButton() {
   nextTurn.setAttribute("id", "next-turn");
   nextTurn.textContent = "Next Turn";
   wrapper.appendChild(nextTurn);
+}
+
+function removeNextButton() {
+  cleanUp(document.querySelector(".interact-wrap"));
 }
 
 function cleanUp(wrapper) {

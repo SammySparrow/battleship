@@ -7,6 +7,7 @@ import {
   cleanUp,
   currentPlayerDisplay,
   moveStatus,
+  removeNextButton,
 } from "./dom.js";
 
 class Controller {
@@ -28,6 +29,7 @@ class Controller {
     }
     currentPlayerDisplay(playerName);
     this.phase = "move";
+    removeNextButton();
     if (this.currentPlayer.type === "computer") {
       let target;
       let name;
@@ -71,9 +73,13 @@ class Controller {
     target.board.grid[coords[0]][coords[1]].ship !== null
       ? (checkHit = true)
       : (checkHit = false);
-    moveStatus(coords, checkHit, playerName);
-    updateButton();
-    this.phase = "next";
+    if (target.board.allSunken === true) {
+      displayResults(playerName);
+    } else {
+      moveStatus(coords, checkHit, playerName);
+      updateButton();
+      this.phase = "next";
+    }
   }
 
   /* TEMP */
@@ -95,7 +101,7 @@ class Controller {
     this.playerOne.board.placeShip(2, [4, 2], "vertical");
 
     this.playerTwo.board.placeShip(5, [1, 5], "horizontal");
-    this.playerTwo.board.placeShip(4, [0, 0], "vertical");
+    /*     this.playerTwo.board.placeShip(4, [0, 0], "vertical");
     this.playerTwo.board.placeShip(4, [6, 9], "horizontal");
     this.playerTwo.board.placeShip(3, [6, 6], "vertical");
     this.playerTwo.board.placeShip(3, [2, 1], "vertical");
@@ -108,7 +114,7 @@ class Controller {
     this.playerTwo.board.placeShip(2, [0, 6], "vertical");
     this.playerTwo.board.placeShip(2, [5, 6], "vertical");
     this.playerTwo.board.placeShip(2, [5, 2], "vertical");
-    this.playerTwo.board.placeShip(2, [4, 2], "vertical");
+    this.playerTwo.board.placeShip(2, [4, 2], "vertical"); */
 
     this.phase = "move";
   }
