@@ -20,26 +20,31 @@ class Cell {
     this.ship = null;
     this.isHit = false;
     this.coords = [x, y];
-    this.edges = this.listEdges(this.coords);
+    this.edges = [];
+    this.edgesX = [];
+    this.edgesY = [];
+    this.init = this.listEdges(this.coords);
   }
 
   listEdges(coords) {
-    let list = [];
     let x = coords[0];
     let y = coords[1];
     if (x + 1 <= 9) {
-      list.push([x + 1, y]);
+      this.edgesX.push([x + 1, y]);
+      this.edges.push([x + 1, y]);
     }
     if (x - 1 >= 0) {
-      list.push([x - 1, y]);
+      this.edgesX.push([x - 1, y]);
+      this.edges.push([x - 1, y]);
     }
     if (y + 1 <= 9) {
-      list.push([x, y + 1]);
+      this.edgesY.push([x, y + 1]);
+      this.edges.push([x, y + 1]);
     }
     if (y - 1 >= 0) {
-      list.push([x, y - 1]);
+      this.edgesY.push([x, y - 1]);
+      this.edges.push([x, y - 1]);
     }
-    return list;
   }
 }
 
@@ -139,30 +144,15 @@ class Player {
       if (Math.abs(targetCell.ship.length - targetCell.ship.timesHit) === 1) {
         this.attackQueue = [];
         this.consecutiveAttacks = [];
-      } else if (this.consecutiveAttacks.length === 2) {
-        this.attackQueue = [];
+      } else if (this.consecutiveAttacks.length >= 2) {
         let coordOne = structuredClone(this.consecutiveAttacks[0]);
         let coordTwo = structuredClone(this.consecutiveAttacks[1]);
-        let index;
-        Math.abs(coordOne[0] - coordTwo[0]) === 1 ? (index = 0) : (index = 1);
-        if (coordOne[index] > coordTwo[index]) {
-          if (coordOne[index] + 1 <= 9) {
-            coordOne[index]++;
-            this.attackQueue.push(coordOne);
-          }
-          if (coordTwo[index] - 1 >= 0) {
-            coordTwo[index]--;
-            this.attackQueue.push(coordTwo);
-          }
-        } else {
-          if (coordOne[index] - 1 >= 0) {
-            coordOne[index]--;
-            this.attackQueue.push(coordOne);
-          }
-          if (coordTwo[index] + 1 >= 9) {
-            coordTwo[index]++;
-            this.attackQueue.push(coordTwo);
-          }
+        let axis;
+        Math.abs(coordOne[0] - coordTwo[0]) === 1
+          ? (axis = targetCell.edgesX)
+          : (axis = targetCell.edgesY);
+        for (let i = 0; i < axis.length; i++) {
+          this.attackQueue.push(axis[i]);
         }
       } else {
         for (let i = 0; i < targetCell.edges.length; i++) {
