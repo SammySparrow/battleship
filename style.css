@@ -11,7 +11,8 @@ body {
   font-weight: 700;
 }
 
-.cell {
+.cell,
+.component {
   width: 24px;
   height: 24px;
   border: 1px solid black;
@@ -62,4 +63,26 @@ main,
   display: flex;
   flex-direction: column;
   justify-content: end;
+}
+
+.interact-wrap {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ship {
+  display: flex;
+}
+
+div[data-direction="vertical"] {
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+}
+
+div[data-direction="horizontal"] {
+  flex-direction: row;
+  height: fit-content;
+  width: fit-content;
 }

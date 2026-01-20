@@ -82,7 +82,7 @@ class Gameboard {
 
     let testCoords = structuredClone(coords);
     for (let i = 0; i < size; i++) {
-      if (this.grid[testCoords[0]][testCoords[1]].ship !== null) {
+      if (this.grid[testCoords[0]][testCoords[1]].ship) {
         throw new Error("Ship overlap");
       }
       testCoords[index]++;
@@ -102,9 +102,9 @@ class Gameboard {
     }
     this.grid[coords[0]][coords[1]].isHit = true;
 
-    if (this.grid[coords[0]][coords[1]].ship !== null) {
+    if (this.grid[coords[0]][coords[1]].ship) {
       this.grid[coords[0]][coords[1]].ship.hit();
-      if (this.grid[coords[0]][coords[1]].ship.sunk === true) {
+      if (this.grid[coords[0]][coords[1]].ship.sunk) {
         this.sunkenShips++;
         if (this.sunkenShips === this.placedShips) {
           this.allSunken = true;
@@ -139,7 +139,7 @@ class Player {
     }
 
     let targetCell = target.board.grid[coords[0]][coords[1]];
-    if (targetCell.ship !== null) {
+    if (targetCell.ship) {
       this.consecutiveAttacks.push(coords);
       if (Math.abs(targetCell.ship.length - targetCell.ship.timesHit) === 1) {
         this.attackQueue = [];

@@ -7,6 +7,8 @@ export {
   currentPlayerDisplay,
   moveStatus,
   removeNextButton,
+  renderShips,
+  currentShipPlacement,
 };
 
 function initialRender(player, owner, currentPlayer) {
@@ -18,6 +20,7 @@ function initialRender(player, owner, currentPlayer) {
   gridHolder.setAttribute("data-owner", `${owner}`);
   render(player, currentPlayer, gridHolder);
   main.appendChild(gridHolder);
+  renderShips();
 }
 
 function render(player, currentPlayer, wrapper) {
@@ -69,6 +72,16 @@ function currentPlayerDisplay(currentPlayer) {
   statusWrapper.append(currentText, player);
 }
 
+function currentShipPlacement(currentPlayer) {
+  const wrapper = document.querySelector(".status-wrap");
+  cleanUp(wrapper);
+  const phase = document.createElement("div");
+  const current = document.createElement("div");
+  phase.textContent = "Place your ships!";
+  current.textContent = `Current player: ${currentPlayer}`;
+  wrapper.append(phase, current);
+}
+
 function moveStatus(coords, hit, player, sunk = false) {
   const statusWrapper = document.querySelector(".status-wrap");
   cleanUp(statusWrapper);
@@ -98,6 +111,25 @@ function updateButton() {
 
 function removeNextButton() {
   cleanUp(document.querySelector(".interact-wrap"));
+}
+
+function renderShips() {
+  const wrapper = document.querySelector(".interact-wrap");
+  cleanUp(wrapper);
+  let defaultShips = [5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2];
+  for (let i = 0; i < defaultShips.length; i++) {
+    let ship = document.createElement("div");
+    for (let j = 0; j < defaultShips[i]; j++) {
+      let component = document.createElement("div");
+      component.setAttribute("class", "component");
+      ship.appendChild(component);
+    }
+    ship.setAttribute("data-length", `${defaultShips[i]}`);
+    ship.setAttribute("data-direction", "vertical");
+    ship.setAttribute("class", "ship");
+    ship.setAttribute("draggable", "true");
+    wrapper.appendChild(ship);
+  }
 }
 
 function cleanUp(wrapper) {

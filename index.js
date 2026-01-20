@@ -8,7 +8,11 @@ import {
   currentPlayerDisplay,
   moveStatus,
   removeNextButton,
+  renderShips,
+  currentShipPlacement,
 } from "./dom.js";
+
+const main = document.querySelector("main");
 
 class Controller {
   constructor(playerOne, playerTwo) {
@@ -48,7 +52,7 @@ class Controller {
   initialiseUI() {
     initialRender(this.playerOne, "player-one", this.currentPlayer);
     initialRender(this.playerTwo, "player-two", this.currentPlayer);
-    currentPlayerDisplay("Player One");
+    currentShipPlacement("Player One");
   }
 
   move(coords, owner) {
@@ -56,9 +60,7 @@ class Controller {
     owner === "player-one"
       ? (target = this.playerOne)
       : (target = this.playerTwo);
-    if (target === this.currentPlayer) {
-      return;
-    }
+    if (target === this.currentPlayer) return;
     target.board.receiveAttack(coords);
     render(
       target,
@@ -71,7 +73,7 @@ class Controller {
     owner === "player-one"
       ? (playerName = "Player Two")
       : (playerName = "Player One");
-    if (target.board.grid[coords[0]][coords[1]].ship !== null) {
+    if (target.board.grid[coords[0]][coords[1]].ship) {
       checkHit = true;
       target.board.grid[coords[0]][coords[1]].ship.sunk
         ? (checkSunk = true)
@@ -79,7 +81,7 @@ class Controller {
     } else {
       checkHit = false;
     }
-    if (target.board.allSunken === true) {
+    if (target.board.allSunken) {
       displayResults(playerName);
     } else {
       moveStatus(coords, checkHit, playerName, checkSunk);
@@ -88,43 +90,31 @@ class Controller {
     }
   }
 
-  /* TEMP */
-  placeShips() {
-    this.playerOne.board.placeShip(5, [1, 5], "horizontal");
-    this.playerOne.board.placeShip(4, [0, 0], "vertical");
-    this.playerOne.board.placeShip(4, [6, 9], "horizontal");
-    this.playerOne.board.placeShip(3, [6, 6], "vertical");
-    this.playerOne.board.placeShip(3, [2, 1], "vertical");
-    this.playerOne.board.placeShip(3, [8, 5], "vertical");
-    this.playerOne.board.placeShip(3, [2, 7], "vertical");
-    this.playerOne.board.placeShip(3, [7, 3], "horizontal");
-    this.playerOne.board.placeShip(3, [4, 1], "horizontal");
-    this.playerOne.board.placeShip(3, [3, 8], "horizontal");
-    this.playerOne.board.placeShip(2, [0, 8], "vertical");
-    this.playerOne.board.placeShip(2, [0, 6], "vertical");
-    this.playerOne.board.placeShip(2, [5, 6], "vertical");
-    this.playerOne.board.placeShip(2, [5, 2], "vertical");
-    this.playerOne.board.placeShip(2, [4, 2], "vertical");
-
-    this.playerTwo.board.placeShip(5, [1, 5], "horizontal");
-
-    this.phase = "move";
+  placeShips(direction, length, x, y) {
+    control.currentPlayer.board.placeShip(length, [x, y], direction);
+    let playerName;
+    this.currentPlayer === this.playerOne
+      ? (playerName = "player-one")
+      : (playerName = "player-two");
+    render(
+      this.currentPlayer,
+      this.currentPlayer,
+      document.querySelector(`[data-owner="${playerName}"]`)
+    );
   }
-  /* TEMP */
 }
 
 let playerOne;
 let playerTwo;
 let control;
 
-document.querySelector("main").addEventListener("click", (e) => {
+main.addEventListener("click", (e) => {
   if (e.target.id === "start-game") {
     const inputOne = new FormData(document.querySelector("#player-one"));
     const inputTwo = new FormData(document.querySelector("#player-two"));
     playerOne = new Player(inputOne.get("player-one"));
     playerTwo = new Player(inputTwo.get("player-two"));
     control = new Controller(playerOne, playerTwo);
-    control.placeShips();
     control.initialiseUI();
   }
 
@@ -138,4 +128,34 @@ document.querySelector("main").addEventListener("click", (e) => {
   if (e.target.id === "next-turn") {
     control.switchTurns();
   }
+
+  if (e.target.parentNode.className === "ship") {
+    e.target.parentNode.dataset.direction === "vertical"
+      ? e.target.parentNode.setAttribute("data-direction", "horizontal")
+      : e.target.parentNode.setAttribute("data-direction", "vertical");
+  }
+});
+
+let targetedShip = null;
+
+main.addEventListener("dragstart", (e) => {
+  targetedShip = e.target;
+});
+
+main.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+
+main.addEventListener("drop", (e) => {
+  if (!targetedShip) return;
+
+  control.placeShips(
+    targetedShip.dataset.direction,
+    parseInt(targetedShip.dataset.length),
+    parseInt(e.target.dataset.x),
+    parseInt(e.target.dataset.y)
+  );
+
+  document.querySelector(".interact-wrap").removeChild(targetedShip);
+  targetedShip = null;
 });
