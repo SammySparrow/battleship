@@ -88,14 +88,10 @@ class Gameboard {
     let index;
     direction === "horizontal" ? (index = 0) : (index = 1);
 
-    if (coords[index] + size > 10) {
-      return false;
-    }
+    if (coords[index] + size > 10) return false;
 
     for (let i = 0; i < size; i++) {
-      if (this.grid[coords[0]][coords[1]].ship) {
-        return false;
-      }
+      if (this.grid[coords[0]][coords[1]].ship) return false;
       coords[index]++;
     }
 
@@ -109,17 +105,13 @@ class Gameboard {
       this.grid[coords[0]][coords[1]].ship.hit();
       if (this.grid[coords[0]][coords[1]].ship.sunk) {
         this.sunkenShips++;
-        if (this.sunkenShips === this.placedShips) {
-          this.allSunken = true;
-        }
+        if (this.sunkenShips === this.placedShips) this.allSunken = true;
       }
     }
   }
 
   receiveAttackValidation(coords) {
-    if (this.grid[coords[0]][coords[1]].isHit) {
-      return false;
-    }
+    if (this.grid[coords[0]][coords[1]].isHit) return false;
     return true;
   }
 }

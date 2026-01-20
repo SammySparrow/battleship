@@ -57,37 +57,37 @@ class Controller {
   }
 
   move(coords, owner) {
-    // Refactor / simplify
     let target;
-    owner === "player-one"
-      ? (target = this.playerOne)
-      : (target = this.playerTwo);
-    if (target === this.currentPlayer) return;
-    // Relies on error being thrown
+    let checkHit;
+    let checkSunk;
+    let playerName;
+    if (owner === "player-one") {
+      target = this.playerOne;
+      playerName = "Player Two";
+    } else {
+      target = this.playerTwo;
+      playerName = "Player One";
+    }
+    if (
+      !target.board.receiveAttackValidation(coords) ||
+      target === this.currentPlayer
+    )
+      return;
     target.board.receiveAttack(coords);
-    // Use validation
     render(
       target,
       this.currentPlayer,
       document.querySelector(`[data-owner="${owner}"]`)
     );
-    let checkHit;
-    let checkSunk;
-    let playerName;
-    owner === "player-one"
-      ? (playerName = "Player Two")
-      : (playerName = "Player One");
+
     if (target.board.grid[coords[0]][coords[1]].ship) {
       checkHit = true;
       target.board.grid[coords[0]][coords[1]].ship.sunk
         ? (checkSunk = true)
         : (checkSunk = false);
-    } else {
-      checkHit = false;
-    }
-    if (target.board.allSunken) {
-      displayResults(playerName);
-    } else {
+    } else checkHit = false;
+    if (target.board.allSunken) displayResults(playerName);
+    else {
       moveStatus(coords, checkHit, playerName, checkSunk);
       updateButton();
       this.phase = "next";
@@ -95,9 +95,15 @@ class Controller {
   }
 
   placeShips(direction, length, x, y) {
-    // Relies on error being thrown to stop execution
+    if (
+      !control.currentPlayer.board.placeShipValidation(
+        length,
+        [x, y],
+        direction
+      )
+    )
+      return;
     control.currentPlayer.board.placeShip(length, [x, y], direction);
-    // Use validation
     let playerName;
     this.currentPlayer === this.playerOne
       ? (playerName = "player-one")
