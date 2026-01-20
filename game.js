@@ -76,18 +76,6 @@ class Gameboard {
     let index;
     direction === "horizontal" ? (index = 0) : (index = 1);
 
-    if (coords[index] + size > 10) {
-      throw new Error("Coords out of bounds");
-    }
-
-    let testCoords = structuredClone(coords);
-    for (let i = 0; i < size; i++) {
-      if (this.grid[testCoords[0]][testCoords[1]].ship) {
-        throw new Error("Ship overlap");
-      }
-      testCoords[index]++;
-    }
-
     for (let i = 0; i < size; i++) {
       this.grid[coords[0]][coords[1]].ship = ship;
       coords[index]++;
@@ -96,10 +84,25 @@ class Gameboard {
     this.placedShips++;
   }
 
-  receiveAttack(coords) {
-    if (this.grid[coords[0]][coords[1]].isHit) {
-      throw new Error("Cell is already hit");
+  placeShipValidation(size, coords, direction) {
+    let index;
+    direction === "horizontal" ? (index = 0) : (index = 1);
+
+    if (coords[index] + size > 10) {
+      return false;
     }
+
+    for (let i = 0; i < size; i++) {
+      if (this.grid[coords[0]][coords[1]].ship) {
+        return false;
+      }
+      coords[index]++;
+    }
+
+    return true;
+  }
+
+  receiveAttack(coords) {
     this.grid[coords[0]][coords[1]].isHit = true;
 
     if (this.grid[coords[0]][coords[1]].ship) {
@@ -111,6 +114,13 @@ class Gameboard {
         }
       }
     }
+  }
+
+  receiveAttackValidation(coords) {
+    if (this.grid[coords[0]][coords[1]].isHit) {
+      return false;
+    }
+    return true;
   }
 }
 

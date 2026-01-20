@@ -41,23 +41,13 @@ describe("Gameboard tests", () => {
     gb = new Gameboard();
   });
 
-  describe("Ship placement method tests", () => {
+  describe("Ship placement", () => {
     test("Ship exists in determined coordinates", () => {
       gb.placeShip(3, [2, 3], "vertical");
 
       expect(gb.grid[2][3].ship).not.toBeNull();
       expect(gb.grid[2][4].ship).not.toBeNull();
       expect(gb.grid[2][5].ship).not.toBeNull();
-    });
-
-    test("Returns false if coordinates are out of bounds", () => {
-      expect(gb.placeShip(2, [9, 9], "vertical")).toBe(false);
-    });
-
-    test("Returns false if ships overlap", () => {
-      gb.placeShip(2, [3, 4], "vertical");
-
-      expect(gb.placeShip(2, [2, 5], "horizontal")).toBe(false);
     });
 
     test("Ships are independent objects", () => {
@@ -75,7 +65,19 @@ describe("Gameboard tests", () => {
     });
   });
 
-  describe("receiveAttack method tests", () => {
+  describe("Ship placement validation", () => {
+    test("Returns false if coordinates are out of bounds", () => {
+      expect(gb.placeShipValidation(2, [9, 9], "vertical")).toBe(false);
+    });
+
+    test("Returns false if ships overlap", () => {
+      gb.placeShip(2, [3, 4], "vertical");
+
+      expect(gb.placeShipValidation(2, [2, 5], "horizontal")).toBe(false);
+    });
+  });
+
+  describe("Receive attack", () => {
     test("Registers missed attack", () => {
       gb.receiveAttack([5, 5]);
       expect(gb.grid[5][5].isHit).toBe(true);
@@ -87,28 +89,32 @@ describe("Gameboard tests", () => {
       expect(gb.grid[5][5].isHit).toBe(true);
       expect(gb.grid[5][5].ship.timesHit).toBe(1);
     });
+  });
 
+  describe("Receive attack validation", () => {
     test("Returns false if same coordinates are struck twice", () => {
       gb.receiveAttack([5, 5]);
-      expect(gb.receiveAttack([5, 5])).toBe(false);
+      expect(gb.receiveAttackValidation([5, 5])).toBe(false);
     });
   });
 
-  test("Amount of placed ships is properly tracked", () => {
-    gb.placeShip(1, [1, 1], "horizontal");
-    gb.placeShip(1, [5, 5], "horizontal");
-    expect(gb.placedShips).toBe(2);
-  });
+  describe("Status trackers", () => {
+    test("Amount of placed ships is properly tracked", () => {
+      gb.placeShip(1, [1, 1], "horizontal");
+      gb.placeShip(1, [5, 5], "horizontal");
+      expect(gb.placedShips).toBe(2);
+    });
 
-  test("Amount of sunken ships are being tracked", () => {
-    gb.placeShip(1, [1, 1], "horizontal");
-    gb.receiveAttack([1, 1]);
-    expect(gb.sunkenShips).toBe(1);
-  });
+    test("Amount of sunken ships are being tracked", () => {
+      gb.placeShip(1, [1, 1], "horizontal");
+      gb.receiveAttack([1, 1]);
+      expect(gb.sunkenShips).toBe(1);
+    });
 
-  test("Gameboard reports that all ships are destroyed", () => {
-    gb.placeShip(1, [5, 5], "horizontal");
-    gb.receiveAttack([5, 5]);
-    expect(gb.allSunken).toBe(true);
+    test("Gameboard reports that all ships are destroyed", () => {
+      gb.placeShip(1, [5, 5], "horizontal");
+      gb.receiveAttack([5, 5]);
+      expect(gb.allSunken).toBe(true);
+    });
   });
 });

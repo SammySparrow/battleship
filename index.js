@@ -57,12 +57,15 @@ class Controller {
   }
 
   move(coords, owner) {
+    // Refactor / simplify
     let target;
     owner === "player-one"
       ? (target = this.playerOne)
       : (target = this.playerTwo);
     if (target === this.currentPlayer) return;
+    // Relies on error being thrown
     target.board.receiveAttack(coords);
+    // Use validation
     render(
       target,
       this.currentPlayer,
@@ -92,7 +95,9 @@ class Controller {
   }
 
   placeShips(direction, length, x, y) {
+    // Relies on error being thrown to stop execution
     control.currentPlayer.board.placeShip(length, [x, y], direction);
+    // Use validation
     let playerName;
     this.currentPlayer === this.playerOne
       ? (playerName = "player-one")
