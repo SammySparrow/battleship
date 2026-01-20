@@ -9,6 +9,7 @@ export {
   removeNextButton,
   renderShips,
   currentShipPlacement,
+  nextShipButton,
 };
 
 function initialRender(player, owner, currentPlayer) {
@@ -75,11 +76,11 @@ function currentPlayerDisplay(currentPlayer) {
 function currentShipPlacement(currentPlayer) {
   const wrapper = document.querySelector(".status-wrap");
   cleanUp(wrapper);
-  const phase = document.createElement("div");
   const current = document.createElement("div");
-  phase.textContent = "Place your ships!";
+  const instruct = document.createElement("div");
+  instruct.textContent = "Click to rotate, drag and drop to place";
   current.textContent = `Current player: ${currentPlayer}`;
-  wrapper.append(phase, current);
+  wrapper.append(current, instruct);
 }
 
 function moveStatus(coords, hit, player, sunk = false) {
@@ -130,6 +131,13 @@ function renderShips() {
     ship.setAttribute("draggable", "true");
     wrapper.appendChild(ship);
   }
+}
+
+function nextShipButton() {
+  const nextButton = document.createElement("button");
+  nextButton.setAttribute("id", "next-ship");
+  nextButton.textContent = "Next player";
+  document.querySelector(".interact-wrap").appendChild(nextButton);
 }
 
 function cleanUp(wrapper) {

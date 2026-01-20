@@ -86,3 +86,12 @@ div[data-direction="horizontal"] {
   height: fit-content;
   width: fit-content;
 }
+
+button {
+  width: 90px;
+  height: 35px;
+  background-color: black;
+  border: none;
+  color: white;
+  border-radius: 10px;
+}

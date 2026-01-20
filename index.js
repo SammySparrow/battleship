@@ -10,6 +10,7 @@ import {
   removeNextButton,
   renderShips,
   currentShipPlacement,
+  nextShipButton,
 } from "./dom.js";
 
 const main = document.querySelector("main");
@@ -101,7 +102,10 @@ class Controller {
       this.currentPlayer,
       document.querySelector(`[data-owner="${playerName}"]`)
     );
+    if (this.currentPlayer.board.placedShips === 15) nextShipButton();
   }
+
+  shipTurnChange() {}
 }
 
 let playerOne;

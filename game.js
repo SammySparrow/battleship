@@ -162,4 +162,6 @@ class Player {
     }
     return coords;
   }
+
+  randomShipPlacement() {}
 }

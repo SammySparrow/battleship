@@ -50,14 +50,14 @@ describe("Gameboard tests", () => {
       expect(gb.grid[2][5].ship).not.toBeNull();
     });
 
-    test("Ship cannot be placed outside of gameboard boundaries", () => {
-      expect(() => gb.placeShip(2, [9, 9], "vertical")).toThrow(Error);
+    test("Returns false if coordinates are out of bounds", () => {
+      expect(gb.placeShip(2, [9, 9], "vertical")).toBe(false);
     });
 
-    test("Ships cannot overlap", () => {
+    test("Returns false if ships overlap", () => {
       gb.placeShip(2, [3, 4], "vertical");
 
-      expect(() => gb.placeShip(2, [2, 5], "horizontal")).toThrow(Error);
+      expect(gb.placeShip(2, [2, 5], "horizontal")).toBe(false);
     });
 
     test("Ships are independent objects", () => {
@@ -88,9 +88,9 @@ describe("Gameboard tests", () => {
       expect(gb.grid[5][5].ship.timesHit).toBe(1);
     });
 
-    test("Throws an error if coordinates have already been hit", () => {
+    test("Returns false if same coordinates are struck twice", () => {
       gb.receiveAttack([5, 5]);
-      expect(() => gb.receiveAttack([5, 5])).toThrow(Error);
+      expect(gb.receiveAttack([5, 5])).toBe(false);
     });
   });
 
