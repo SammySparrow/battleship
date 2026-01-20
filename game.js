@@ -165,5 +165,32 @@ class Player {
     return coords;
   }
 
-  randomShipPlacement() {}
+  randomShipPlacement() {
+    let ships = [5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2];
+    for (let i = 0; i < ships.length; i++) {
+      let shipPlaced = false;
+      while (!shipPlaced) {
+        let indexPointer = Math.floor(Math.random() * 2);
+        let direction;
+        let coords;
+        if (indexPointer === 0) {
+          coords = [
+            Math.floor(Math.random() * (10 - size)),
+            Math.floor(Math.random() * 10),
+          ];
+          direction = "horizontal";
+        } else {
+          coords = [
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * (10 - size)),
+          ];
+          direction = "vertical";
+        }
+        if (this.board.placeShipValidation(ships[i], coords, direction)) {
+          this.board.placeShip(ships[i], coords, direction);
+          shipPlaced = true;
+        }
+      }
+    }
+  }
 }
