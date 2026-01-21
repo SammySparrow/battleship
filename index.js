@@ -148,9 +148,14 @@ class Controller {
         this.currentPlayer,
         document.querySelector(`[data-owner="${owner}"]`)
       );
-      targetCell.ship
-        ? UI.moveStatus(coords, targetCell.isHit, player, targetCell.ship.sunk)
-        : UI.moveStatus(coords, targetCell.isHit, player);
+      let status;
+      if (!targetCell.ship) status = "It's a miss...";
+      else if (targetCell.ship.sunk) status = "Ship destroyed!";
+      else status = "It's a hit!";
+      UI.displayMessage(
+        `${player} fires at x: ${coords[0]} y: ${coords[1]}`,
+        status
+      );
       UI.updateButton("next-turn", "End turn");
     }
   }
