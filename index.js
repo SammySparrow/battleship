@@ -56,7 +56,7 @@ class Controller {
     }
   }
 
-  placeShips(direction, length, x, y) {
+  placeShips(direction, length, x, y, shipElement) {
     if (
       !control.currentPlayer.board.placeShipValidation(
         length,
@@ -75,6 +75,8 @@ class Controller {
       this.currentPlayer,
       document.querySelector(`[data-owner="${playerName}"]`)
     );
+
+    UI.interact.removeChild(shipElement);
     if (this.currentPlayer.board.placedShips === 15)
       UI.updateButton("next-ship", "Done");
   }
@@ -251,7 +253,5 @@ main.addEventListener("drop", (e) => {
     parseInt(e.target.dataset.x),
     parseInt(e.target.dataset.y)
   );
-
-  document.querySelector(".interact-wrap").removeChild(targetedShip);
   targetedShip = null;
 });
