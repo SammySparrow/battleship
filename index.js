@@ -1,17 +1,5 @@
 import { Player } from "./game.js";
-import {
-  render,
-  initialRender,
-  displayResults,
-  updateButton,
-  cleanUp,
-  currentPlayerDisplay,
-  moveStatus,
-  removeNextButton,
-  renderShips,
-  currentShipPlacement,
-  nextShipButton,
-} from "./dom.js";
+import { UserInterface } from "./dom.js";
 
 const main = document.querySelector("main");
 
@@ -137,6 +125,7 @@ class Controller {
 let playerOne;
 let playerTwo;
 let control;
+let UI = new UserInterface();
 
 main.addEventListener("click", (e) => {
   if (e.target.id === "start-game") {
