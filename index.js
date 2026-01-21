@@ -8,6 +8,7 @@ class Controller {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
     this.currentPlayer = this.playerOne;
+    this.target = this.playerTwo;
     this.bothHuman = this.checkTypes();
     this.phase = "ship";
   }
@@ -82,11 +83,13 @@ class Controller {
     // initial switch
     if (this.currentPlayer === this.playerOne) {
       this.currentPlayer = this.playerTwo;
+      this.target = this.playerOne;
       this.bothHuman ? this.humanSwitch() : this.shipPhase();
     }
     // second switch
     else {
       this.currentPlayer = this.playerOne;
+      this.target = this.playerTwo;
       this.phase = "move";
       this.bothHuman ? this.humanSwitch() : this.movePhase();
     }
@@ -101,12 +104,10 @@ class Controller {
       if (this.currentPlayer === this.playerOne) {
         dataRef = "player-one";
         name = "Player One";
-        opp = this.playerTwo;
         oppDataRef = "player-two";
       } else {
         dataRef = "player-two";
         name = "Player Two";
-        opp = this.playerOne;
         oppDataRef = "player-one";
       }
       UI.render(
@@ -115,7 +116,7 @@ class Controller {
         document.querySelector(`[data-owner="${dataRef}"]`)
       );
       UI.render(
-        opp,
+        this.target,
         this.currentPlayer,
         document.querySelector(`[data-owner="${oppDataRef}"]`)
       );
