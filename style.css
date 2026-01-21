@@ -2,6 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  --navy: #212d40;
+  --white: #fefefa;
+  --grey: #626262;
+  --blue: #208aae;
+  --yellow: #f7b32b;
+  --crimson: #d72638;
 }
 
 body {
@@ -9,22 +15,36 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   text-align: center;
   font-weight: 700;
+  background-color: var(--navy);
+  color: var(--white);
 }
 
 .cell,
 .component {
   width: 24px;
   height: 24px;
-  border: 1px solid black;
+  border: 1px solid var(--white);
   transition: all 0.2s ease;
 }
 
 .component {
-  background-color: grey;
+  background-color: var(--grey);
+}
+
+#hit {
+  background-color: var(--crimson);
+}
+
+#miss {
+  background-color: var(--blue);
+}
+
+#grid-ship {
+  background-color: var(--grey);
 }
 
 .cell:hover {
-  border: 1px solid red;
+  border: 1px solid var(--yellow);
   scale: 1.1;
 }
 
@@ -32,7 +52,7 @@ body {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
   width: fit-content;
-  border: 1px solid black;
+  border: 1px solid var(--white);
 }
 main {
   width: 100vw;
@@ -94,8 +114,14 @@ div[data-direction="horizontal"] {
 button {
   width: 90px;
   height: 35px;
-  background-color: black;
+  background-color: var(--white);
   border: none;
-  color: white;
+  color: black;
+  font-weight: bold;
   border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
 }

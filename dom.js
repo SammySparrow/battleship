@@ -9,18 +9,21 @@ class UserInterface {
     this.interact = interact;
   }
 
-  initialRender(player, owner, currentPlayer) {
+  initialRender(player, owner) {
     this.cleanUp(document.querySelector(".initialise"));
     const main = document.querySelector(".grid-wrap");
     const gridHolder = document.createElement("div");
 
     gridHolder.setAttribute("class", "wrapper");
     gridHolder.setAttribute("data-owner", `${owner}`);
-    this.render(player, currentPlayer, gridHolder);
+    this.render(player, gridHolder, false, true);
     main.appendChild(gridHolder);
   }
 
-  render(player, currentPlayer, wrapper) {
+  render(player, dataRef, hide = false, init = false) {
+    let wrapper;
+    if (init) wrapper = dataRef;
+    else wrapper = document.querySelector(`[data-owner="${dataRef}"]`);
     this.cleanUp(wrapper);
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
@@ -29,22 +32,12 @@ class UserInterface {
         cell.setAttribute("data-x", `${j}`);
         cell.setAttribute("data-y", `${i}`);
 
-        if (player.board.grid[j][i].isHit === false) {
-          if (
-            (player === currentPlayer &&
-              player.board.grid[j][i].ship !== null) ||
-            (currentPlayer.type === "computer" &&
-              player.board.grid[j][i].ship !== null)
-          ) {
-            cell.style.backgroundColor = "grey";
-          } else {
-            cell.style.backgroundColor = "white";
-          }
-        } else if (player.board.grid[j][i].ship !== null) {
-          cell.style.backgroundColor = "red";
-        } else {
-          cell.style.backgroundColor = "blue";
-        }
+        if (player.board.grid[j][i].isHit) {
+          player.board.grid[j][i].ship
+            ? cell.setAttribute("id", "hit")
+            : cell.setAttribute("id", "miss");
+        } else if (!hide && player.board.grid[j][i].ship)
+          cell.setAttribute("id", "grid-ship");
         wrapper.appendChild(cell);
       }
     }

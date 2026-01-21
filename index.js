@@ -97,31 +97,24 @@ class Controller {
 
   movePhase() {
     this.phase = "move";
+    let dataRef;
+    let name;
+    let oppDataRef;
+    if (this.currentPlayer === this.playerOne) {
+      dataRef = "player-one";
+      name = "Player One";
+      oppDataRef = "player-two";
+    } else {
+      dataRef = "player-two";
+      name = "Player Two";
+      oppDataRef = "player-one";
+    }
     if (this.currentPlayer.type === "human") {
-      let dataRef;
-      let name;
-      let oppDataRef;
-      if (this.currentPlayer === this.playerOne) {
-        dataRef = "player-one";
-        name = "Player One";
-        oppDataRef = "player-two";
-      } else {
-        dataRef = "player-two";
-        name = "Player Two";
-        oppDataRef = "player-one";
-      }
-      UI.render(
-        this.currentPlayer,
-        this.currentPlayer,
-        document.querySelector(`[data-owner="${dataRef}"]`)
-      );
-      UI.render(
-        this.target,
-        this.currentPlayer,
-        document.querySelector(`[data-owner="${oppDataRef}"]`)
-      );
+      UI.render(this.currentPlayer, dataRef);
+      UI.render(this.target, oppDataRef);
       UI.displayMessage(`Current player: ${name}`, "Click to attack");
     } else {
+      UI.render(this.currentPlayer, dataRef, true);
       let coords = this.currentPlayer.randomMove(this.target);
       this.movePhaseAttack(coords);
     }
@@ -143,11 +136,7 @@ class Controller {
     if (this.target.board.allSunken) this.gameOver(player);
     else {
       this.phase = "next";
-      UI.render(
-        this.target,
-        this.currentPlayer,
-        document.querySelector(`[data-owner="${owner}"]`)
-      );
+      UI.render(this.target, owner, true);
       let status;
       if (!targetCell.ship) status = "It's a miss...";
       else if (targetCell.ship.sunk) status = "Ship destroyed!";
@@ -173,16 +162,8 @@ class Controller {
   }
 
   gameOver(winner) {
-    UI.render(
-      this.playerOne,
-      this.playerOne,
-      document.querySelector(`[data-owner="player-one"]`)
-    );
-    UI.render(
-      this.playerTwo,
-      this.playerTwo,
-      document.querySelector(`[data-owner="player-two"]`)
-    );
+    UI.render(this.playerOne, "player-one");
+    UI.render(this.playerTwo, "player-two");
     UI.displayMessage("Game Over!", `${winner} Wins!`);
     UI.updateButton("new-game", "New game");
   }
