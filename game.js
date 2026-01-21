@@ -86,13 +86,14 @@ class Gameboard {
 
   placeShipValidation(size, coords, direction) {
     let index;
+    let validateCoords = structuredClone(coords);
     direction === "horizontal" ? (index = 0) : (index = 1);
 
-    if (coords[index] + size > 10) return false;
+    if (validateCoords[index] + size > 10) return false;
 
     for (let i = 0; i < size; i++) {
-      if (this.grid[coords[0]][coords[1]].ship) return false;
-      coords[index]++;
+      if (this.grid[validateCoords[0]][validateCoords[1]].ship) return false;
+      validateCoords[index]++;
     }
 
     return true;
@@ -175,14 +176,14 @@ class Player {
         let coords;
         if (indexPointer === 0) {
           coords = [
-            Math.floor(Math.random() * (10 - size)),
+            Math.floor(Math.random() * (10 - ships[i])),
             Math.floor(Math.random() * 10),
           ];
           direction = "horizontal";
         } else {
           coords = [
             Math.floor(Math.random() * 10),
-            Math.floor(Math.random() * (10 - size)),
+            Math.floor(Math.random() * (10 - ships[i])),
           ];
           direction = "vertical";
         }

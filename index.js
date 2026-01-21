@@ -86,8 +86,10 @@ class Controller {
         ? (checkSunk = true)
         : (checkSunk = false);
     } else checkHit = false;
-    if (target.board.allSunken) displayResults(playerName);
-    else {
+    if (target.board.allSunken) {
+      displayResults(playerName);
+      control.phase = null;
+    } else {
       moveStatus(coords, checkHit, playerName, checkSunk);
       updateButton();
       this.phase = "next";
@@ -116,7 +118,20 @@ class Controller {
     if (this.currentPlayer.board.placedShips === 15) nextShipButton();
   }
 
-  shipTurnChange() {}
+  shipTurnChange() {
+    let target;
+    this.currentPlayer === this.playerOne
+      ? (target = this.playerTwo)
+      : (target = this.playerOne);
+    if (target.type === "computer") {
+      target.randomShipPlacement();
+      let name;
+      target === this.playerOne ? (name = "Player Two") : (name = "Player One");
+      this.phase = "move";
+      currentPlayerDisplay(name);
+      cleanUp(document.querySelector(".interact-wrap"));
+    }
+  }
 }
 
 let playerOne;
@@ -149,6 +164,8 @@ main.addEventListener("click", (e) => {
       ? e.target.parentNode.setAttribute("data-direction", "horizontal")
       : e.target.parentNode.setAttribute("data-direction", "vertical");
   }
+
+  if (e.target.id === "next-ship") control.shipTurnChange();
 });
 
 let targetedShip = null;
