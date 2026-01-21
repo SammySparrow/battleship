@@ -19,6 +19,24 @@ body {
   color: var(--white);
 }
 
+.initialise {
+  display: grid;
+  grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+  h1 {
+    grid-area: 1 / 2;
+  }
+  div:first-of-type {
+    grid-area: 2;
+  }
+  div:last-of-type {
+    grid-area: 2 / 3;
+  }
+  button {
+    grid-area: 2 / 2;
+    justify-self: center;
+    align-self: center;
+  }
+}
 .cell,
 .component {
   width: 24px;
