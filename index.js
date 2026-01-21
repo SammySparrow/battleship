@@ -80,26 +80,24 @@ class Controller {
   }
 
   shipPhaseSwitch() {
-    // initial switch
+    UI.cleanUp(UI.interact);
     if (this.currentPlayer === this.playerOne) {
       this.currentPlayer = this.playerTwo;
       this.target = this.playerOne;
       this.bothHuman ? this.humanSwitch() : this.shipPhase();
-    }
-    // second switch
-    else {
+    } else {
+      this.phase = "move";
       this.currentPlayer = this.playerOne;
       this.target = this.playerTwo;
-      this.phase = "move";
       this.bothHuman ? this.humanSwitch() : this.movePhase();
     }
   }
 
   movePhase() {
+    this.phase = "move";
     if (this.currentPlayer.type === "human") {
       let dataRef;
       let name;
-      let opp;
       let oppDataRef;
       if (this.currentPlayer === this.playerOne) {
         dataRef = "player-one";
@@ -122,77 +120,52 @@ class Controller {
       );
       UI.displayMessage(`Current player: ${name}`, "Click to attack");
     } else {
+      let coords = this.currentPlayer.randomMove(this.target);
+      this.movePhaseAttack(coords);
     }
   }
 
-  movePhaseSwitch() {}
+  movePhaseAttack(coords) {
+    if (!this.target.board.receiveAttackValidation(coords)) return;
+    this.target.board.receiveAttack(coords);
+    let owner;
+    let player;
+    let targetCell = this.target.board.grid[coords[0]][coords[1]];
+    if (this.target === this.playerOne) {
+      owner = "player-one";
+      player = "Player Two";
+    } else {
+      owner = "player-two";
+      player = "Player One";
+    }
+    if (this.target.board.allSunken) this.gameOver(player);
+    else {
+      this.phase = "next";
+      UI.render(
+        this.target,
+        this.currentPlayer,
+        document.querySelector(`[data-owner="${owner}"]`)
+      );
+      targetCell.ship
+        ? UI.moveStatus(coords, targetCell.isHit, player, targetCell.ship.sunk)
+        : UI.moveStatus(coords, targetCell.isHit, player);
+      UI.updateButton("next-turn", "End turn");
+    }
+  }
 
-  switchTurns() {
-    let playerName;
+  movePhaseSwitch() {
+    UI.cleanUp(UI.interact);
     if (this.currentPlayer === this.playerOne) {
       this.currentPlayer = this.playerTwo;
-      playerName = "Player Two";
+      this.target = this.playerOne;
     } else {
       this.currentPlayer = this.playerOne;
-      playerName = "Player One";
+      this.target = this.playerTwo;
     }
-    currentPlayerDisplay(playerName);
-    this.phase = "move";
-    removeNextButton();
-    if (this.currentPlayer.type === "computer") {
-      let target;
-      let name;
-      if (this.currentPlayer === this.playerOne) {
-        target = this.playerTwo;
-        name = "player-two";
-      } else {
-        target = this.playerOne;
-        name = "player-one";
-      }
-      let newCoords = this.currentPlayer.randomMove(target);
-      this.move(newCoords, name);
-    }
+    this.bothHuman ? this.humanSwitch() : this.movePhase();
   }
 
-  move(coords, owner) {
-    let target;
-    let checkHit;
-    let checkSunk;
-    let playerName;
-    if (owner === "player-one") {
-      target = this.playerOne;
-      playerName = "Player Two";
-    } else {
-      target = this.playerTwo;
-      playerName = "Player One";
-    }
-    if (
-      !target.board.receiveAttackValidation(coords) ||
-      target === this.currentPlayer
-    )
-      return;
-    target.board.receiveAttack(coords);
-    UI.render(
-      target,
-      this.currentPlayer,
-      document.querySelector(`[data-owner="${owner}"]`)
-    );
-
-    if (target.board.grid[coords[0]][coords[1]].ship) {
-      checkHit = true;
-      target.board.grid[coords[0]][coords[1]].ship.sunk
-        ? (checkSunk = true)
-        : (checkSunk = false);
-    } else checkHit = false;
-    if (target.board.allSunken) {
-      displayResults(playerName);
-      control.phase = null;
-    } else {
-      moveStatus(coords, checkHit, playerName, checkSunk);
-      updateButton();
-      this.phase = "next";
-    }
-  }
+  gameOver(winner) {}
 }
 
 let playerOne;
@@ -212,14 +185,14 @@ main.addEventListener("click", (e) => {
   }
 
   if (e.target.className === "cell" && control.phase === "move") {
-    control.move(
-      [parseInt(e.target.dataset.x), parseInt(e.target.dataset.y)],
-      e.target.parentNode.dataset.owner
-    );
+    control.movePhaseAttack([
+      parseInt(e.target.dataset.x),
+      parseInt(e.target.dataset.y),
+    ]);
   }
 
   if (e.target.id === "next-turn") {
-    control.switchTurns();
+    control.movePhaseSwitch();
   }
 
   if (e.target.id === "human-switch") {

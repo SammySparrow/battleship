@@ -103,7 +103,7 @@ class UserInterface {
   }
 
   cleanUp(wrapper) {
-    while (wrapper.firstChild !== null) {
+    while (wrapper.firstChild) {
       wrapper.removeChild(wrapper.firstChild);
     }
   }
