@@ -67,10 +67,6 @@ class Gameboard {
     return board;
   }
 
-  reset() {
-    this.grid = this.initialiseGrid();
-  }
-
   placeShip(size, coords, direction) {
     let ship = new Ship(size);
     let index;
@@ -121,6 +117,12 @@ class Player {
   constructor(type) {
     this.board = new Gameboard();
     this.type = type;
+    this.attackQueue = [];
+    this.consecutiveAttacks = [];
+  }
+
+  reset() {
+    this.board = new Gameboard();
     this.attackQueue = [];
     this.consecutiveAttacks = [];
   }

@@ -165,7 +165,31 @@ class Controller {
     this.bothHuman ? this.humanSwitch() : this.movePhase();
   }
 
-  gameOver(winner) {}
+  gameOver(winner) {
+    UI.render(
+      this.playerOne,
+      this.playerOne,
+      document.querySelector(`[data-owner="player-one"]`)
+    );
+    UI.render(
+      this.playerTwo,
+      this.playerTwo,
+      document.querySelector(`[data-owner="player-two"]`)
+    );
+    UI.displayMessage("Game Over!", `${winner} Wins!`);
+    UI.updateButton("new-game", "New game");
+  }
+
+  newGame() {
+    UI.cleanUp(document.querySelector(".grid-wrap"));
+    this.playerOne.reset();
+    this.playerTwo.reset();
+    this.currentPlayer = this.playerOne;
+    this.target = this.playerTwo;
+    this.phase = "ship";
+    this.initialiseUI();
+    this.shipPhase();
+  }
 }
 
 let playerOne;
@@ -184,16 +208,13 @@ main.addEventListener("click", (e) => {
     control.shipPhase();
   }
 
-  if (e.target.className === "cell" && control.phase === "move") {
+  if (e.target.className === "cell" && control.phase === "move")
     control.movePhaseAttack([
       parseInt(e.target.dataset.x),
       parseInt(e.target.dataset.y),
     ]);
-  }
 
-  if (e.target.id === "next-turn") {
-    control.movePhaseSwitch();
-  }
+  if (e.target.id === "next-turn") control.movePhaseSwitch();
 
   if (e.target.id === "human-switch") {
     if (control.phase === "ship") control.shipPhase();
@@ -207,6 +228,8 @@ main.addEventListener("click", (e) => {
   }
 
   if (e.target.id === "next-ship") control.shipPhaseSwitch();
+
+  if (e.target.id === "new-game") control.newGame();
 });
 
 let targetedShip = null;
