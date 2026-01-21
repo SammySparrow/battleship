@@ -8,7 +8,7 @@ class Controller {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
     this.currentPlayer = this.playerOne;
-    this.bothHuman = this.checkTypes;
+    this.bothHuman = this.checkTypes();
     this.phase = "ship";
   }
 
@@ -92,7 +92,37 @@ class Controller {
     }
   }
 
-  movePhase() {}
+  movePhase() {
+    if (this.currentPlayer.type === "human") {
+      let dataRef;
+      let name;
+      let opp;
+      let oppDataRef;
+      if (this.currentPlayer === this.playerOne) {
+        dataRef = "player-one";
+        name = "Player One";
+        opp = this.playerTwo;
+        oppDataRef = "player-two";
+      } else {
+        dataRef = "player-two";
+        name = "Player Two";
+        opp = this.playerOne;
+        oppDataRef = "player-one";
+      }
+      UI.render(
+        this.currentPlayer,
+        this.currentPlayer,
+        document.querySelector(`[data-owner="${dataRef}"]`)
+      );
+      UI.render(
+        opp,
+        this.currentPlayer,
+        document.querySelector(`[data-owner="${oppDataRef}"]`)
+      );
+      UI.displayMessage(`Current player: ${name}`, "Click to attack");
+    } else {
+    }
+  }
 
   movePhaseSwitch() {}
 
