@@ -8,8 +8,93 @@ class Controller {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
     this.currentPlayer = this.playerOne;
-    this.phase = "ships";
+    this.bothHuman = this.checkTypes;
+    this.phase = "ship";
   }
+
+  initialiseUI() {
+    UI.initialRender(this.playerOne, "player-one", this.currentPlayer);
+    UI.initialRender(this.playerTwo, "player-two", this.currentPlayer);
+  }
+
+  checkTypes() {
+    if (this.playerOne.type === "human" && this.playerTwo.type === "human")
+      return true;
+    return false;
+  }
+
+  humanSwitch() {
+    UI.render(
+      this.playerOne,
+      this.playerTwo,
+      document.querySelector(`[data-owner="player-one"]`)
+    );
+    UI.render(
+      this.playerTwo,
+      this.playerOne,
+      document.querySelector(`[data-owner="player-two"]`)
+    );
+    UI.displayMessage("Switching turns", 'Press "Start turn" to begin');
+    UI.updateButton("human-switch", "Start turn");
+  }
+
+  shipPhase() {
+    if (this.currentPlayer.type === "human") {
+      UI.renderShips();
+      let current;
+      this.currentPlayer === this.playerOne
+        ? (current = "Player One")
+        : (current = "Player Two");
+      UI.displayMessage(
+        `Current player: ${current}`,
+        "Click to rotate, drag and drop to place"
+      );
+    } else {
+      this.currentPlayer.randomShipPlacement();
+      this.shipPhaseSwitch();
+    }
+  }
+
+  placeShips(direction, length, x, y) {
+    if (
+      !control.currentPlayer.board.placeShipValidation(
+        length,
+        [x, y],
+        direction
+      )
+    )
+      return;
+    control.currentPlayer.board.placeShip(length, [x, y], direction);
+    let playerName;
+    this.currentPlayer === this.playerOne
+      ? (playerName = "player-one")
+      : (playerName = "player-two");
+    UI.render(
+      this.currentPlayer,
+      this.currentPlayer,
+      document.querySelector(`[data-owner="${playerName}"]`)
+    );
+    if (this.currentPlayer.board.placedShips === 15)
+      UI.updateButton("next-ship", "Done");
+  }
+
+  shipPhaseSwitch() {
+    // initial switch
+    if (this.currentPlayer === this.playerOne) {
+      this.currentPlayer = this.playerTwo;
+      this.bothHuman ? this.humanSwitch() : this.shipPhase();
+    }
+    // second switch
+    else {
+      this.currentPlayer = this.playerOne;
+      this.phase = "move";
+      this.bothHuman ? this.humanSwitch() : this.movePhase();
+    }
+  }
+
+  movePhase() {}
+
+  movePhaseSwitch() {}
 
   switchTurns() {
     let playerName;
@@ -38,12 +123,6 @@ class Controller {
     }
   }
 
-  initialiseUI() {
-    initialRender(this.playerOne, "player-one", this.currentPlayer);
-    initialRender(this.playerTwo, "player-two", this.currentPlayer);
-    currentShipPlacement("Player One");
-  }
-
   move(coords, owner) {
     let target;
     let checkHit;
@@ -62,7 +141,7 @@ class Controller {
     )
       return;
     target.board.receiveAttack(coords);
-    render(
+    UI.render(
       target,
       this.currentPlayer,
       document.querySelector(`[data-owner="${owner}"]`)
@@ -83,43 +162,6 @@ class Controller {
       this.phase = "next";
     }
   }
-
-  placeShips(direction, length, x, y) {
-    if (
-      !control.currentPlayer.board.placeShipValidation(
-        length,
-        [x, y],
-        direction
-      )
-    )
-      return;
-    control.currentPlayer.board.placeShip(length, [x, y], direction);
-    let playerName;
-    this.currentPlayer === this.playerOne
-      ? (playerName = "player-one")
-      : (playerName = "player-two");
-    render(
-      this.currentPlayer,
-      this.currentPlayer,
-      document.querySelector(`[data-owner="${playerName}"]`)
-    );
-    if (this.currentPlayer.board.placedShips === 15) nextShipButton();
-  }
-
-  shipTurnChange() {
-    let target;
-    this.currentPlayer === this.playerOne
-      ? (target = this.playerTwo)
-      : (target = this.playerOne);
-    if (target.type === "computer") {
-      target.randomShipPlacement();
-      let name;
-      target === this.playerOne ? (name = "Player Two") : (name = "Player One");
-      this.phase = "move";
-      currentPlayerDisplay(name);
-      cleanUp(document.querySelector(".interact-wrap"));
-    }
-  }
 }
 
 let playerOne;
@@ -135,6 +177,7 @@ main.addEventListener("click", (e) => {
     playerTwo = new Player(inputTwo.get("player-two"));
     control = new Controller(playerOne, playerTwo);
     control.initialiseUI();
+    control.shipPhase();
   }
 
   if (e.target.className === "cell" && control.phase === "move") {
@@ -148,13 +191,18 @@ main.addEventListener("click", (e) => {
     control.switchTurns();
   }
 
+  if (e.target.id === "human-switch") {
+    if (control.phase === "ship") control.shipPhase();
+    if (control.phase === "move") control.movePhase();
+  }
+
   if (e.target.parentNode.className === "ship") {
     e.target.parentNode.dataset.direction === "vertical"
       ? e.target.parentNode.setAttribute("data-direction", "horizontal")
       : e.target.parentNode.setAttribute("data-direction", "vertical");
   }
 
-  if (e.target.id === "next-ship") control.shipTurnChange();
+  if (e.target.id === "next-ship") control.shipPhaseSwitch();
 });
 
 let targetedShip = null;

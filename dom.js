@@ -10,19 +10,18 @@ class UserInterface {
   }
 
   initialRender(player, owner, currentPlayer) {
-    cleanUp(document.querySelector(".initialise"));
+    this.cleanUp(document.querySelector(".initialise"));
     const main = document.querySelector(".grid-wrap");
     const gridHolder = document.createElement("div");
 
     gridHolder.setAttribute("class", "wrapper");
     gridHolder.setAttribute("data-owner", `${owner}`);
-    render(player, currentPlayer, gridHolder);
+    this.render(player, currentPlayer, gridHolder);
     main.appendChild(gridHolder);
-    renderShips();
   }
 
   render(player, currentPlayer, wrapper) {
-    cleanUp(wrapper);
+    this.cleanUp(wrapper);
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         let cell = document.createElement("div");
@@ -52,18 +51,16 @@ class UserInterface {
   }
 
   displayMessage(lineOne, lineTwo) {
-    const status = document.querySelector(".status-wrap");
-    cleanUp(status);
+    this.cleanUp(this.status);
     const textOne = document.createElement("div");
     const textTwo = document.createElement("div");
     textOne.textContent = `${lineOne}`;
     textTwo.textContent = `${lineTwo}`;
-    status.append(textOne, textTwo);
+    this.status.append(textOne, textTwo);
   }
 
   moveStatus(coords, hit, player, sunk = false) {
-    const statusWrapper = document.querySelector(".status-wrap");
-    cleanUp(statusWrapper);
+    this.cleanUp(this.status);
     const coordMessage = document.createElement("div");
     const hitMessage = document.createElement("div");
     const sunkMessage = document.createElement("div");
@@ -76,21 +73,19 @@ class UserInterface {
     if (sunk) {
       sunkMessage.textContent = "Ship destroyed!";
     }
-    statusWrapper.append(coordMessage, hitMessage, sunkMessage);
+    this.status.append(coordMessage, hitMessage, sunkMessage);
   }
 
   updateButton(id, text) {
-    const wrapper = document.querySelector(".interact-wrap");
-    cleanUp(wrapper);
+    this.cleanUp(this.interact);
     const btn = document.createElement("button");
     btn.setAttribute("id", `${id}`);
     btn.textContent = `${text}`;
-    wrapper.appendChild(btn);
+    this.interact.appendChild(btn);
   }
 
   renderShips() {
-    const wrapper = document.querySelector(".interact-wrap");
-    cleanUp(wrapper);
+    this.cleanUp(this.interact);
     let defaultShips = [5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2];
     for (let i = 0; i < defaultShips.length; i++) {
       let ship = document.createElement("div");
@@ -103,7 +98,7 @@ class UserInterface {
       ship.setAttribute("data-direction", "vertical");
       ship.setAttribute("class", "ship");
       ship.setAttribute("draggable", "true");
-      wrapper.appendChild(ship);
+      this.interact.appendChild(ship);
     }
   }
 
