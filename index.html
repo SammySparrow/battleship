@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,44 +13,27 @@
         <div>
           <p>Player One</p>
           <form id="player-one">
-            <div>
-              <input
-                type="radio"
-                name="player-one"
-                id="human"
-                value="human"
-                checked
-              />
-              <label for="human">Human</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="player-one"
-                id="computer"
-                value="computer"
-              />
-              <label for="computer">Computer</label>
-            </div>
+            <label>
+              <input type="radio" name="player-one" value="human" checked />
+              Human</label
+            >
+            <label>
+              <input type="radio" name="player-one" value="computer" />
+              Computer</label
+            >
           </form>
         </div>
         <div>
           <p>Player Two</p>
           <form id="player-two">
-            <div>
-              <input type="radio" name="player-two" id="human" value="human" />
-              <label for="human">Human</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="player-two"
-                id="computer"
-                value="computer"
-                checked
-              />
-              <label for="computer">Computer</label>
-            </div>
+            <label>
+              <input type="radio" name="player-two" value="human" />
+              Human</label
+            >
+            <label>
+              <input type="radio" name="player-two" value="computer" checked />
+              Computer</label
+            >
           </form>
         </div>
         <button id="start-game">Start Game</button>
