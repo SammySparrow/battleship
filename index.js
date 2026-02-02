@@ -28,12 +28,12 @@ class Controller {
     UI.render(
       this.playerOne,
       this.playerTwo,
-      document.querySelector(`[data-owner="player-one"]`)
+      document.querySelector(`[data-owner="player-one"]`),
     );
     UI.render(
       this.playerTwo,
       this.playerOne,
-      document.querySelector(`[data-owner="player-two"]`)
+      document.querySelector(`[data-owner="player-two"]`),
     );
     UI.displayMessage("Switching turns", 'Press "Start turn" to begin');
     UI.updateButton("human-switch", "Start turn");
@@ -48,7 +48,7 @@ class Controller {
         : (current = "Player Two");
       UI.displayMessage(
         `Current player: ${current}`,
-        "Click to rotate, drag and drop to place"
+        "Click to rotate, drag and drop to place",
       );
     } else {
       this.currentPlayer.randomShipPlacement();
@@ -61,7 +61,7 @@ class Controller {
       !control.currentPlayer.board.placeShipValidation(
         length,
         [x, y],
-        direction
+        direction,
       )
     )
       return;
@@ -70,11 +70,7 @@ class Controller {
     this.currentPlayer === this.playerOne
       ? (playerName = "player-one")
       : (playerName = "player-two");
-    UI.render(
-      this.currentPlayer,
-      this.currentPlayer,
-      document.querySelector(`[data-owner="${playerName}"]`)
-    );
+    UI.render(this.currentPlayer, playerName);
 
     UI.interact.removeChild(shipElement);
     if (this.currentPlayer.board.placedShips === 15)
@@ -143,7 +139,7 @@ class Controller {
       else status = "It's a hit!";
       UI.displayMessage(
         `${player} fires at x: ${coords[0]} y: ${coords[1]}`,
-        status
+        status,
       );
       UI.updateButton("next-turn", "End turn");
     }
@@ -237,7 +233,8 @@ main.addEventListener("drop", (e) => {
     targetedShip.dataset.direction,
     parseInt(targetedShip.dataset.length),
     parseInt(e.target.dataset.x),
-    parseInt(e.target.dataset.y)
+    parseInt(e.target.dataset.y),
+    targetedShip,
   );
   targetedShip = null;
 });
